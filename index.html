@@ -143,40 +143,22 @@
     font-size: 1rem;
   }
 
-  /* Collapsible section header */
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-accent);
-    padding: 14px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    box-shadow: 0 4px 18px rgba(12,20,40,0.04);
-    margin-top: 24px;
-  }
-
-  .section-header h2 {
-    margin: 0;
+  /* Section headers */
+  h2 {
+    margin-top: 32px;
+    margin-bottom: 12px;
     font-size: 1.2rem;
     color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
 
-  .chevron {
-    transition: transform 0.3s ease;
-  }
-
-  .collapsed .chevron {
-    transform: rotate(-90deg);
-  }
-
-  /* Collapsible content */
-  .section-content {
-    display: none;
-    margin-top: 10px;
+  .section-icon {
+    width:20px;
+    height:20px;
+    fill: var(--accent);
+    opacity:0.9;
   }
 
   /* Shopping item card */
@@ -202,8 +184,24 @@
     text-decoration: line-through;
     color: var(--muted);
   }
-</style>
 
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    font-size: 18px;
+    animation: fall 1.5s linear forwards;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -213,9 +211,6 @@
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="icon-list" viewBox="0 0 24 24">
       <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-    </symbol>
-    <symbol id="chevron" viewBox="0 0 24 24">
-      <path d="M8 10l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"/>
     </symbol>
   </svg>
 
@@ -254,106 +249,81 @@
   <input type="text" id="search" class="search-box" placeholder="Search items...">
 
   <!-- GENERAL ITEMS -->
-  <div class="section collapsed">
-    <div class="section-header">
-      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> General Items</h2>
-      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
-    </div>
-    <div class="section-content">
-      <label class="item"><input type="checkbox"><span>2 x Big Low Fat Milk</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Bags White rolls</span></label>
-      <label class="item"><input type="checkbox"><span>5 x Nice Bread Rolls</span></label>
-      <label class="item"><input type="checkbox"><span>5 x Hamburger Patties</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Drain Cleaner</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Frozen Chips</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Bag Pears</span></label>
-      <label class="item"><input type="checkbox"><span>2 x Cucumber</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Bag Apples</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Cheese</span></label>
-      <label class="item"><input type="checkbox"><span>2 x Breakfast Bars</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Coffee</span></label>
-      <label class="item"><input type="checkbox"><span>1 x 24 Eggs Tray</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Whole Wheat Bread</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Dishwashing Tablets</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Clothing Washing Tablets</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Muesli</span></label>
-      <label class="item"><input type="checkbox"><span>1 x Bananas</span></label>
-    </div>
+  <div class="section-content">
+    <h2><svg class="section-icon"><use href="#icon-list"></use></svg> General Items</h2>
+    <label class="item"><input type="checkbox"><span>2 x Big Low Fat Milk</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Bags White rolls</span></label>
+    <label class="item"><input type="checkbox"><span>5 x Nice Bread Rolls</span></label>
+    <label class="item"><input type="checkbox"><span>5 x Hamburger Patties</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Drain Cleaner</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Frozen Chips</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Bag Pears</span></label>
+    <label class="item"><input type="checkbox"><span>2 x Cucumber</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Bag Apples</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Cheese</span></label>
+    <label class="item"><input type="checkbox"><span>2 x Breakfast Bars</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Coffee</span></label>
+    <label class="item"><input type="checkbox"><span>1 x 24 Eggs Tray</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Whole Wheat Bread</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Dishwashing Tablets</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Clothing Washing Tablets</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Muesli</span></label>
+    <label class="item"><input type="checkbox"><span>1 x Bananas</span></label>
   </div>
 
   <!-- PRODUCE -->
-  <div class="section collapsed">
-    <div class="section-header">
-      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Produce</h2>
-      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
-    </div>
-    <div class="section-content">
-      <label class="item"><input type="checkbox"><span>Carrots</span></label>
-      <label class="item"><input type="checkbox"><span>Courgette</span></label>
-      <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
-      <label class="item"><input type="checkbox"><span>Onions</span></label>
-      <label class="item"><input type="checkbox"><span>Garlic</span></label>
-      <label class="item"><input type="checkbox"><span>Potatoes</span></label>
-      <label class="item"><input type="checkbox"><span>Green beans</span></label>
-      <label class="item"><input type="checkbox"><span>Lettuce</span></label>
-      <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
-      <label class="item"><input type="checkbox"><span>Cucumber</span></label>
-      <label class="item"><input type="checkbox"><span>Avocado</span></label>
-      <label class="item"><input type="checkbox"><span>Spring onions</span></label>
-      <label class="item"><input type="checkbox"><span>Lemons</span></label>
-      <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
-    </div>
+  <div class="section-content">
+    <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Produce</h2>
+    <label class="item"><input type="checkbox"><span>Carrots</span></label>
+    <label class="item"><input type="checkbox"><span>Courgette</span></label>
+    <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
+    <label class="item"><input type="checkbox"><span>Onions</span></label>
+    <label class="item"><input type="checkbox"><span>Garlic</span></label>
+    <label class="item"><input type="checkbox"><span>Potatoes</span></label>
+    <label class="item"><input type="checkbox"><span>Green beans</span></label>
+    <label class="item"><input type="checkbox"><span>Lettuce</span></label>
+    <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
+    <label class="item"><input type="checkbox"><span>Cucumber</span></label>
+    <label class="item"><input type="checkbox"><span>Avocado</span></label>
+    <label class="item"><input type="checkbox"><span>Spring onions</span></label>
+    <label class="item"><input type="checkbox"><span>Lemons</span></label>
+    <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
   </div>
 
   <!-- PROTEIN -->
-  <div class="section collapsed">
-    <div class="section-header">
-      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Protein</h2>
-      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
-    </div>
-    <div class="section-content">
-      <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
-      <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
-      <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
-      <label class="item"><input type="checkbox"><span>Eggs</span></label>
-    </div>
+  <div class="section-content">
+    <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Protein</h2>
+    <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
+    <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
+    <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
+    <label class="item"><input type="checkbox"><span>Eggs</span></label>
   </div>
 
   <!-- PANTRY -->
-  <div class="section collapsed">
-    <div class="section-header">
-      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Pantry</h2>
-      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
-    </div>
-    <div class="section-content">
-      <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
-      <label class="item"><input type="checkbox"><span>Brown rice</span></label>
-      <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
-      <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
-      <label class="item"><input type="checkbox"><span>Passata</span></label>
-      <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
-      <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
-      <label class="item"><input type="checkbox"><span>Olive oil</span></label>
-      <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
-      <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
-      <label class="item"><input type="checkbox"><span>Cumin</span></label>
-      <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
-      <label class="item"><input type="checkbox"><span>Oregano</span></label>
-      <label class="item"><input type="checkbox"><span>Basil</span></label>
-    </div>
+  <div class="section-content">
+    <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Pantry</h2>
+    <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
+    <label class="item"><input type="checkbox"><span>Brown rice</span></label>
+    <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
+    <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
+    <label class="item"><input type="checkbox"><span>Passata</span></label>
+    <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
+    <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
+    <label class="item"><input type="checkbox"><span>Olive oil</span></label>
+    <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
+    <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
+    <label class="item"><input type="checkbox"><span>Cumin</span></label>
+    <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
+    <label class="item"><input type="checkbox"><span>Oregano</span></label>
+    <label class="item"><input type="checkbox"><span>Basil</span></label>
   </div>
 
   <!-- DAIRY -->
-  <div class="section collapsed">
-    <div class="section-header">
-      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Dairy</h2>
-      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
-    </div>
-    <div class="section-content">
-      <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
-      <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
-      <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
-    </div>
+  <div class="section-content">
+    <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Dairy</h2>
+    <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
+    <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
+    <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
   </div>
 
 </div>
@@ -367,24 +337,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const progressMessage = document.getElementById("progress-message");
   const clearButton = document.getElementById("clear-all");
   const searchInput = document.getElementById("search");
-  const sections = document.querySelectorAll(".section");
 
-  /* -------------------------
-     COLLAPSIBLE SECTIONS
-  ------------------------- */
-  document.querySelectorAll(".section-header").forEach(header => {
-    header.addEventListener("click", () => {
-      const section = header.parentElement;
-      section.classList.toggle("collapsed");
-
-      const content = section.querySelector(".section-content");
-      content.style.display = section.classList.contains("collapsed") ? "none" : "block";
-    });
-  });
-
-  /* -------------------------
-     LOAD SAVED CHECKBOX STATES
-  ------------------------- */
+  /* Load saved states */
   checkboxes.forEach((box, index) => {
     const saved = localStorage.getItem("shopping-item-" + index);
     if (saved === "true") box.checked = true;
@@ -394,11 +348,12 @@ document.addEventListener("DOMContentLoaded", function () {
       autoSort(box);
       updateProgress();
     });
+
+    // Ensure initial sort reflects saved state
+    autoSort(box);
   });
 
-  /* -------------------------
-     AUTO-SORT CHECKED ITEMS
-  ------------------------- */
+  /* Auto-sort checked items within their section */
   function autoSort(box) {
     const label = box.closest("label.item");
     const sectionContent = label.parentElement;
@@ -410,9 +365,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  /* -------------------------
-     PROGRESS BAR + CONFETTI
-  ------------------------- */
+  /* Progress bar + confetti */
   function updateProgress() {
     const total = checkboxes.length;
     const checked = Array.from(checkboxes).filter(b => b.checked).length;
@@ -431,7 +384,41 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  /* -------------------------
-     CLEAR ALL BUTTON
-  ------------------------- */
-  clearButton.addEventListener("click", ()
+  /* Clear all */
+  clearButton.addEventListener("click", () => {
+    checkboxes.forEach((box, index) => {
+      box.checked = false;
+      localStorage.setItem("shopping-item-" + index, false);
+      autoSort(box);
+    });
+    updateProgress();
+  });
+
+  /* Search filter */
+  searchInput.addEventListener("input", () => {
+    const term = searchInput.value.toLowerCase();
+    document.querySelectorAll("label.item").forEach(label => {
+      const text = label.innerText.toLowerCase();
+      label.style.display = text.includes(term) ? "" : "none";
+    });
+  });
+
+  /* Simple confetti */
+  function launchConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const conf = document.createElement("span");
+      conf.className = "confetti";
+      conf.textContent = "🎉";
+      conf.style.left = Math.random() * 100 + "vw";
+      conf.style.animationDelay = (Math.random() * 0.7) + "s";
+      document.body.appendChild(conf);
+      setTimeout(() => conf.remove(), 2000);
+    }
+  }
+
+  updateProgress();
+});
+</script>
+
+</body>
+</html>
