@@ -46,21 +46,6 @@
     color: #999;  
   }  
 </style>  
-  
-<script>  
-  // Load saved checkbox states  
-  document.addEventListener("DOMContentLoaded", function () {  
-    document.querySelectorAll("input[type='checkbox']").forEach((box, index) => {  
-      const saved = localStorage.getItem("item-" + index);  
-      if (saved === "true") box.checked = true;  
-  
-      box.addEventListener("change", () => {  
-        localStorage.setItem("item-" + index, box.checked);  
-      });  
-    });  
-  });  
-</script>  
-  
 </head>  
   
 <body>  
