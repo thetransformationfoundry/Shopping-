@@ -55,7 +55,7 @@
     color:var(--accent);
   }
 
-  /* Sticky header containing progress + button */
+  /* Sticky header containing progress + buttons */
   .sticky-header {
     position: sticky;
     top: 0;
@@ -99,17 +99,21 @@
     transition: width 0.25s ease;
   }
 
-  /* Navigation Button */
-  .nav-button {
+  /* Buttons */
+  .nav-button, .clear-button {
     display: inline-block;
     padding: 10px 18px;
-    background: var(--accent);
-    color: white;
     border-radius: var(--radius);
     font-weight: 600;
     text-decoration: none;
     box-shadow: 0 3px 10px rgba(11,120,209,0.25);
     transition: background 0.2s ease, transform 0.15s ease;
+    margin: 4px;
+  }
+
+  .nav-button {
+    background: var(--accent);
+    color: white;
   }
 
   .nav-button:hover {
@@ -117,26 +121,62 @@
     transform: translateY(-2px);
   }
 
-  .nav-button:active {
-    transform: translateY(0);
+  .clear-button {
+    background: #e11d48;
+    color: white;
+    border: none;
+    cursor: pointer;
   }
 
-  /* Section headers */
-  h2 {
-    margin-top: 32px;
-    margin-bottom: 12px;
+  .clear-button:hover {
+    background: #be123c;
+    transform: translateY(-2px);
+  }
+
+  /* Search bar */
+  .search-box {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(12,20,40,0.15);
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
+  /* Collapsible section header */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-accent);
+    padding: 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(12,20,40,0.04);
+    margin-top: 24px;
+  }
+
+  .section-header h2 {
+    margin: 0;
     font-size: 1.2rem;
     color: var(--accent);
-    display:flex;
-    align-items:center;
-    gap:10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  .section-icon {
-    width:20px;
-    height:20px;
-    fill: var(--accent);
-    opacity:0.9;
+  .chevron {
+    transition: transform 0.3s ease;
+  }
+
+  .collapsed .chevron {
+    transform: rotate(-90deg);
+  }
+
+  /* Collapsible content */
+  .section-content {
+    display: none;
+    margin-top: 10px;
   }
 
   /* Shopping item card */
@@ -164,45 +204,6 @@
   }
 </style>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll("label.item input[type='checkbox']");
-    const progressFill = document.getElementById("progress-fill");
-    const progressText = document.getElementById("progress-text");
-    const progressMessage = document.getElementById("progress-message");
-
-    // Load saved states
-    checkboxes.forEach((box, index) => {
-      const saved = localStorage.getItem("shopping-item-" + index);
-      if (saved === "true") box.checked = true;
-
-      box.addEventListener("change", () => {
-        localStorage.setItem("shopping-item-" + index, box.checked);
-        updateProgress();
-      });
-    });
-
-    function updateProgress() {
-      const total = checkboxes.length;
-      const checked = Array.from(checkboxes).filter(b => b.checked).length;
-      const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
-
-      progressFill.style.width = percent + "%";
-      progressText.textContent = percent + "%";
-
-      if (percent === 0) {
-        progressMessage.textContent = "Time to get shopping, Seany!";
-      } else if (percent === 100) {
-        progressMessage.textContent = "Ready to start cooking, good looking!";
-      } else {
-        progressMessage.textContent = "Making progress!";
-      }
-    }
-
-    updateProgress();
-  });
-</script>
-
 </head>
 
 <body>
@@ -212,6 +213,9 @@
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="icon-list" viewBox="0 0 24 24">
       <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+    </symbol>
+    <symbol id="chevron" viewBox="0 0 24 24">
+      <path d="M8 10l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"/>
     </symbol>
   </svg>
 
@@ -224,7 +228,7 @@
     </h1>
   </header>
 
-  <!-- Sticky Progress + Button -->
+  <!-- Sticky Progress + Buttons -->
   <div class="sticky-header">
 
     <div class="progress-wrapper">
@@ -241,78 +245,193 @@
       <a href="https://thetransformationfoundry.github.io/Shopping-/whatscooking.html" class="nav-button">
         Back to Recipes
       </a>
+      <button id="clear-all" class="clear-button">Clear</button>
     </nav>
 
   </div>
 
+  <!-- SEARCH BAR -->
+  <input type="text" id="search" class="search-box" placeholder="Search items...">
+
   <!-- GENERAL ITEMS -->
-  <h2><svg class="section-icon"><use href="#icon-list"></use></svg> General Items</h2>
-  <label class="item"><input type="checkbox"><span>2 x Big Low Fat Milk</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Bags White rolls</span></label>
-  <label class="item"><input type="checkbox"><span>5 x Nice Bread Rolls</span></label>
-  <label class="item"><input type="checkbox"><span>5 x Hamburger Patties</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Drain Cleaner</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Frozen Chips</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Bag Pears</span></label>
-  <label class="item"><input type="checkbox"><span>2 x Cucumber</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Bag Apples</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Cheese</span></label>
-  <label class="item"><input type="checkbox"><span>2 x Breakfast Bars</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Coffee</span></label>
-  <label class="item"><input type="checkbox"><span>1 x 24 Eggs Tray</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Whole Wheat Bread</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Dishwashing Tablets</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Clothing Washing Tablets</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Muesli</span></label>
-  <label class="item"><input type="checkbox"><span>1 x Bananas</span></label>
+  <div class="section collapsed">
+    <div class="section-header">
+      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> General Items</h2>
+      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
+    </div>
+    <div class="section-content">
+      <label class="item"><input type="checkbox"><span>2 x Big Low Fat Milk</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bags White rolls</span></label>
+      <label class="item"><input type="checkbox"><span>5 x Nice Bread Rolls</span></label>
+      <label class="item"><input type="checkbox"><span>5 x Hamburger Patties</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Drain Cleaner</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Frozen Chips</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bag Pears</span></label>
+      <label class="item"><input type="checkbox"><span>2 x Cucumber</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bag Apples</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Cheese</span></label>
+      <label class="item"><input type="checkbox"><span>2 x Breakfast Bars</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Coffee</span></label>
+      <label class="item"><input type="checkbox"><span>1 x 24 Eggs Tray</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Whole Wheat Bread</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Dishwashing Tablets</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Clothing Washing Tablets</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Muesli</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bananas</span></label>
+    </div>
+  </div>
 
   <!-- PRODUCE -->
-  <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Produce</h2>
-  <label class="item"><input type="checkbox"><span>Carrots</span></label>
-  <label class="item"><input type="checkbox"><span>Courgette</span></label>
-  <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
-  <label class="item"><input type="checkbox"><span>Onions</span></label>
-  <label class="item"><input type="checkbox"><span>Garlic</span></label>
-  <label class="item"><input type="checkbox"><span>Potatoes</span></label>
-  <label class="item"><input type="checkbox"><span>Green beans</span></label>
-  <label class="item"><input type="checkbox"><span>Lettuce</span></label>
-  <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
-  <label class="item"><input type="checkbox"><span>Cucumber</span></label>
-  <label class="item"><input type="checkbox"><span>Avocado</span></label>
-  <label class="item"><input type="checkbox"><span>Spring onions</span></label>
-  <label class="item"><input type="checkbox"><span>Lemons</span></label>
-  <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
+  <div class="section collapsed">
+    <div class="section-header">
+      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Produce</h2>
+      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
+    </div>
+    <div class="section-content">
+      <label class="item"><input type="checkbox"><span>Carrots</span></label>
+      <label class="item"><input type="checkbox"><span>Courgette</span></label>
+      <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
+      <label class="item"><input type="checkbox"><span>Onions</span></label>
+      <label class="item"><input type="checkbox"><span>Garlic</span></label>
+      <label class="item"><input type="checkbox"><span>Potatoes</span></label>
+      <label class="item"><input type="checkbox"><span>Green beans</span></label>
+      <label class="item"><input type="checkbox"><span>Lettuce</span></label>
+      <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
+      <label class="item"><input type="checkbox"><span>Cucumber</span></label>
+      <label class="item"><input type="checkbox"><span>Avocado</span></label>
+      <label class="item"><input type="checkbox"><span>Spring onions</span></label>
+      <label class="item"><input type="checkbox"><span>Lemons</span></label>
+      <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
+    </div>
+  </div>
 
   <!-- PROTEIN -->
-  <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Protein</h2>
-  <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
-  <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
-  <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
-  <label class="item"><input type="checkbox"><span>Eggs</span></label>
+  <div class="section collapsed">
+    <div class="section-header">
+      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Protein</h2>
+      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
+    </div>
+    <div class="section-content">
+      <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
+      <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
+      <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
+      <label class="item"><input type="checkbox"><span>Eggs</span></label>
+    </div>
+  </div>
 
   <!-- PANTRY -->
-  <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Pantry</h2>
-  <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
-  <label class="item"><input type="checkbox"><span>Brown rice</span></label>
-  <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
-  <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
-  <label class="item"><input type="checkbox"><span>Passata</span></label>
-  <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
-  <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
-  <label class="item"><input type="checkbox"><span>Olive oil</span></label>
-  <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
-  <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
-  <label class="item"><input type="checkbox"><span>Cumin</span></label>
-  <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
-  <label class="item"><input type="checkbox"><span>Oregano</span></label>
-  <label class="item"><input type="checkbox"><span>Basil</span></label>
+  <div class="section collapsed">
+    <div class="section-header">
+      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Pantry</h2>
+      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
+    </div>
+    <div class="section-content">
+      <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
+      <label class="item"><input type="checkbox"><span>Brown rice</span></label>
+      <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
+      <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
+      <label class="item"><input type="checkbox"><span>Passata</span></label>
+      <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
+      <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
+      <label class="item"><input type="checkbox"><span>Olive oil</span></label>
+      <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
+      <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
+      <label class="item"><input type="checkbox"><span>Cumin</span></label>
+      <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
+      <label class="item"><input type="checkbox"><span>Oregano</span></label>
+      <label class="item"><input type="checkbox"><span>Basil</span></label>
+    </div>
+  </div>
 
   <!-- DAIRY -->
-  <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Dairy</h2>
-  <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
-  <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
-  <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
+  <div class="section collapsed">
+    <div class="section-header">
+      <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Dairy</h2>
+      <svg class="chevron" width="24" height="24"><use href="#chevron"></use></svg>
+    </div>
+    <div class="section-content">
+      <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
+      <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
+      <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
+    </div>
+  </div>
 
 </div>
-</body>
-</html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const checkboxes = document.querySelectorAll("label.item input[type='checkbox']");
+  const progressFill = document.getElementById("progress-fill");
+  const progressText = document.getElementById("progress-text");
+  const progressMessage = document.getElementById("progress-message");
+  const clearButton = document.getElementById("clear-all");
+  const searchInput = document.getElementById("search");
+  const sections = document.querySelectorAll(".section");
+
+  /* -------------------------
+     COLLAPSIBLE SECTIONS
+  ------------------------- */
+  document.querySelectorAll(".section-header").forEach(header => {
+    header.addEventListener("click", () => {
+      const section = header.parentElement;
+      section.classList.toggle("collapsed");
+
+      const content = section.querySelector(".section-content");
+      content.style.display = section.classList.contains("collapsed") ? "none" : "block";
+    });
+  });
+
+  /* -------------------------
+     LOAD SAVED CHECKBOX STATES
+  ------------------------- */
+  checkboxes.forEach((box, index) => {
+    const saved = localStorage.getItem("shopping-item-" + index);
+    if (saved === "true") box.checked = true;
+
+    box.addEventListener("change", () => {
+      localStorage.setItem("shopping-item-" + index, box.checked);
+      autoSort(box);
+      updateProgress();
+    });
+  });
+
+  /* -------------------------
+     AUTO-SORT CHECKED ITEMS
+  ------------------------- */
+  function autoSort(box) {
+    const label = box.closest("label.item");
+    const sectionContent = label.parentElement;
+
+    if (box.checked) {
+      sectionContent.appendChild(label);
+    } else {
+      sectionContent.insertBefore(label, sectionContent.firstChild);
+    }
+  }
+
+  /* -------------------------
+     PROGRESS BAR + CONFETTI
+  ------------------------- */
+  function updateProgress() {
+    const total = checkboxes.length;
+    const checked = Array.from(checkboxes).filter(b => b.checked).length;
+    const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+
+    progressFill.style.width = percent + "%";
+    progressText.textContent = percent + "%";
+
+    if (percent === 0) {
+      progressMessage.textContent = "Time to get shopping, Seany!";
+    } else if (percent === 100) {
+      progressMessage.textContent = "Ready to start cooking, good looking!";
+      launchConfetti();
+    } else {
+      progressMessage.textContent = "Making progress!";
+    }
+  }
+
+  /* -------------------------
+     CLEAR ALL BUTTON
+  ------------------------- */
+  clearButton.addEventListener("click", ()
