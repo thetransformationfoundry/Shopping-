@@ -1,54 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AH Shopping List</title>
 
 <style>
+  :root{
+    --bg: #f6f7fb;
+    --bg-accent: linear-gradient(135deg,#ffffff 0%, #f8fbff 100%);
+    --card: #ffffff;
+    --muted: #6b7280;
+    --text: #0f1724;
+    --accent: #0b78d1;
+    --accent-2: #f59e0b;
+    --radius: 12px;
+    --gap: 18px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    padding: 20px;
-    background: #f7f7f7;
-    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+    padding: 28px;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container{
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom: 20px;
   }
 
   h1 {
-    text-align: center;
-    margin-bottom: 25px;
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--bg-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 18px rgba(12,20,40,0.06);
   }
 
+  h1 .logo {
+    width:36px;
+    height:36px;
+    color:var(--accent);
+  }
+
+  /* Section headers */
   h2 {
-    margin-top: 30px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #ddd;
-    color: #0077cc;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    color: var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
 
+  .section-icon {
+    width:20px;
+    height:20px;
+    fill: var(--accent);
+    opacity:0.9;
+  }
+
+  /* Shopping item card */
   .item {
     display: flex;
     align-items: center;
-    padding: 12px 10px;
-    margin: 6px 0;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    font-size: 18px;
+    padding: 14px 14px;
+    margin: 8px 0;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 18px rgba(12,20,40,0.04);
+    border: 1px solid rgba(12,20,40,0.03);
+    font-size: 1rem;
   }
 
   .item input[type="checkbox"] {
     width: 22px;
     height: 22px;
-    margin-right: 12px;
+    margin-right: 14px;
   }
 
   .item input[type="checkbox"]:checked + span {
     text-decoration: line-through;
-    color: #999;
+    color: var(--muted);
+  }
+
+  /* Navigation button (back to recipes) */
+  .nav-button {
+    display: inline-block;
+    padding: 10px 18px;
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(11,120,209,0.25);
+    transition: background 0.2s ease, transform 0.15s ease;
+    margin-bottom: 20px;
+  }
+
+  .nav-button:hover {
+    background: #0968b5;
+    transform: translateY(-2px);
+  }
+
+  .nav-button:active {
+    transform: translateY(0);
   }
 </style>
 
 <script>
-  // Load saved checkbox states
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("input[type='checkbox']").forEach((box, index) => {
       const saved = localStorage.getItem("item-" + index);
@@ -64,51 +137,91 @@
 </head>
 
 <body>
+<div class="container">
 
-<h1>AH Shopping List</h1>
+  <!-- Icons -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <symbol id="icon-list" viewBox="0 0 24 24">
+      <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+    </symbol>
+  </svg>
 
-<h2>Produce</h2>
-<label class="item"><input type="checkbox"><span>Carrots</span></label>
-<label class="item"><input type="checkbox"><span>Courgette</span></label>
-<label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
-<label class="item"><input type="checkbox"><span>Onions</span></label>
-<label class="item"><input type="checkbox"><span>Garlic</span></label>
-<label class="item"><input type="checkbox"><span>Potatoes</span></label>
-<label class="item"><input type="checkbox"><span>Green beans</span></label>
-<label class="item"><input type="checkbox"><span>Lettuce</span></label>
-<label class="item"><input type="checkbox"><span>Tomatoes</span></label>
-<label class="item"><input type="checkbox"><span>Cucumber</span></label>
-<label class="item"><input type="checkbox"><span>Avocado</span></label>
-<label class="item"><input type="checkbox"><span>Spring onions</span></label>
-<label class="item"><input type="checkbox"><span>Lemons</span></label>
-<label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
+  <header>
+    <h1>
+      <svg class="logo" viewBox="0 0 24 24">
+        <use href="#icon-list"></use>
+      </svg>
+      AH Shopping List
+    </h1>
+  </header>
 
-<h2>Protein</h2>
-<label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
-<label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
-<label class="item"><input type="checkbox"><span>White fish fillets</span></label>
-<label class="item"><input type="checkbox"><span>Eggs</span></label>
+  <nav style="text-align:center;">
+  <a href="https://thetransformationfoundry.github.io/Shopping-/whatscooking.html" 
+     class="nav-button">
+    Back to Recipes
+  </a>
+</nav>
 
-<h2>Pantry</h2>
-<label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
-<label class="item"><input type="checkbox"><span>Brown rice</span></label>
-<label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
-<label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
-<label class="item"><input type="checkbox"><span>Passata</span></label>
-<label class="item"><input type="checkbox"><span>Tomato puree</span></label>
-<label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
-<label class="item"><input type="checkbox"><span>Olive oil</span></label>
-<label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
-<label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
-<label class="item"><input type="checkbox"><span>Cumin</span></label>
-<label class="item"><input type="checkbox"><span>Garlic powder</span></label>
-<label class="item"><input type="checkbox"><span>Oregano</span></label>
-<label class="item"><input type="checkbox"><span>Basil</span></label>
 
-<h2>Dairy</h2>
-<label class="item"><input type="checkbox"><span>Mozzarella</span></label>
-<label class="item"><input type="checkbox"><span>Yoghurt</span></label>
-<label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
+  <!-- PRODUCE -->
+  <h2>
+    <svg class="section-icon" viewBox="0 0 24 24"><use href="#icon-list"></use></svg>
+    Produce
+  </h2>
+  <label class="item"><input type="checkbox"><span>Carrots</span></label>
+  <label class="item"><input type="checkbox"><span>Courgette</span></label>
+  <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
+  <label class="item"><input type="checkbox"><span>Onions</span></label>
+  <label class="item"><input type="checkbox"><span>Garlic</span></label>
+  <label class="item"><input type="checkbox"><span>Potatoes</span></label>
+  <label class="item"><input type="checkbox"><span>Green beans</span></label>
+  <label class="item"><input type="checkbox"><span>Lettuce</span></label>
+  <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
+  <label class="item"><input type="checkbox"><span>Cucumber</span></label>
+  <label class="item"><input type="checkbox"><span>Avocado</span></label>
+  <label class="item"><input type="checkbox"><span>Spring onions</span></label>
+  <label class="item"><input type="checkbox"><span>Lemons</span></label>
+  <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
 
+  <!-- PROTEIN -->
+  <h2>
+    <svg class="section-icon" viewBox="0 0 24 24"><use href="#icon-list"></use></svg>
+    Protein
+  </h2>
+  <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
+  <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
+  <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
+  <label class="item"><input type="checkbox"><span>Eggs</span></label>
+
+  <!-- PANTRY -->
+  <h2>
+    <svg class="section-icon" viewBox="0 0 24 24"><use href="#icon-list"></use></svg>
+    Pantry
+  </h2>
+  <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
+  <label class="item"><input type="checkbox"><span>Brown rice</span></label>
+  <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
+  <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
+  <label class="item"><input type="checkbox"><span>Passata</span></label>
+  <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
+  <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
+  <label class="item"><input type="checkbox"><span>Olive oil</span></label>
+  <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
+  <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
+  <label class="item"><input type="checkbox"><span>Cumin</span></label>
+  <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
+  <label class="item"><input type="checkbox"><span>Oregano</span></label>
+  <label class="item"><input type="checkbox"><span>Basil</span></label>
+
+  <!-- DAIRY -->
+  <h2>
+    <svg class="section-icon" viewBox="0 0 24 24"><use href="#icon-list"></use></svg>
+    Dairy
+  </h2>
+  <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
+  <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
+  <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
+
+</div>
 </body>
 </html>
