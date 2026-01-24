@@ -1,169 +1,331 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Weekly Recipes</title>
 
 <style>
+  :root{
+    --bg: #f6f7fb;
+    --bg-accent: linear-gradient(135deg,#ffffff 0%, #f8fbff 100%);
+    --card: #ffffff;
+    --muted: #6b7280;
+    --text: #0f1724;
+    --accent: #0b78d1; /* change this to alter primary colour */
+    --accent-2: #f59e0b; /* secondary accent for badges */
+    --radius: 12px;
+    --gap: 18px;
+  }
+
+  /* reset-ish */
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    padding: 20px;
-    background: #f7f7f7;
-    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    padding: 28px;
+    background: var(--bg);
+    color: var(--text);
     line-height: 1.6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  .container{
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom: 28px;
   }
 
   h1 {
-    text-align: center;
-    margin-bottom: 30px;
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--bg-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 18px rgba(12,20,40,0.06);
+  }
+
+  h1 .logo {
+    width:36px;
+    height:36px;
+    display:inline-block;
+    vertical-align:middle;
+    color:var(--accent);
   }
 
   h2 {
-    margin-top: 40px;
-    color: #0077cc;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
+    margin-top: 28px;
+    color: var(--accent);
+    font-size: 1.1rem;
+    display:flex;
+    align-items:center;
+    gap:12px;
   }
 
+  /* recipe card */
   .recipe {
-    background: #fff;
-    padding: 18px;
-    border-radius: 12px;
-    margin-top: 15px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    background: var(--card);
+    padding: 16px;
+    border-radius: var(--radius);
+    margin-top: 12px;
+    box-shadow: 0 4px 18px rgba(12,20,40,0.04);
+    border: 1px solid rgba(12,20,40,0.03);
+  }
+
+  /* small badge with day */
+  .day-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background: rgba(11,120,209,0.08);
+    color: var(--accent);
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:0.95rem;
   }
 
   .section-title {
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 5px;
+    font-weight:700;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    color:var(--text);
+  }
+
+  /* icon style used with <svg class="icon"> */
+  .icon{
+    width:18px;
+    height:18px;
+    display:inline-block;
+    flex: 0 0 18px;
+    fill: currentColor;
+    stroke: none;
+    opacity:0.95;
   }
 
   ul {
-    margin-top: 5px;
+    margin-top: 6px;
+    padding-left: 1.05rem;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  /* improve lists visually: small soft bullets */
+  li::marker{
+    color: var(--accent-2);
+  }
+
+  /* responsive: stack narrower */
+  @media (min-width: 860px){
+    .recipes-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .recipe{ margin-top:0 } /* grid handles spacing */
+    h2{ grid-column: span 2; }
+  }
+
+  /* subtle print styles (optional) */
+  @media print{
+    body{background:white;color:black}
+    .recipe{box-shadow:none;border:none}
   }
 </style>
 </head>
 
 <body>
+<div class="container">
+  <!-- SVG symbol definitions for small inline icons -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <symbol id="icon-calendar" viewBox="0 0 24 24">
+      <path d="M7 10h5v5H7z" opacity="0.15"></path>
+      <path d="M7 11h5v4H7z" />
+      <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 14H5V9h14v9z"/>
+    </symbol>
 
-<h1>Dinner Recipes for the Week</h1>
+    <symbol id="icon-ingredients" viewBox="0 0 24 24">
+      <path d="M12 2C8.7 2 6 6 6 6s-1 2 1 4 5 2 5 2 3 0 5-2 1-4 1-4-2.7-4-6-4z" />
+      <path d="M4 20c0 1.1.9 2 2 2h12a1 1 0 0 0 1-1v-3c0-2.2-2.7-4-6-4H9C5.8 14 4 16 4 18v2z" opacity="0.9"/>
+    </symbol>
 
-<!-- MONDAY -->
-<h2>Monday — Hidden‑Veggie Beef Pasta</h2>
-<div class="recipe">
-  <div class="section-title">Ingredients</div>
-  <ul>
-    <li>Whole‑wheat pasta</li>
-    <li>Lean beef mince</li>
-    <li>Passata</li>
-    <li>Carrot, courgette, paprika (grated or finely diced)</li>
-    <li>Onion, garlic</li>
-    <li>Olive oil, oregano, basil</li>
-  </ul>
+    <symbol id="icon-instructions" viewBox="0 0 24 24">
+      <path d="M9 11.5l1.5 1.5L15.5 8l1.5 1.5L10.5 16l-2-2z" />
+      <path d="M19 3H5a2 2 0 0 0-2 2v14l4-4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" opacity="0.08" />
+    </symbol>
+  </svg>
 
-  <div class="section-title">Instructions</div>
-  <ul>
-    <li>Cook pasta according to package.</li>
-    <li>Sauté onion and garlic in olive oil.</li>
-    <li>Add beef mince and brown it.</li>
-    <li>Add grated veggies and cook until soft.</li>
-    <li>Pour in passata, season with oregano and basil.</li>
-    <li>Simmer 10 minutes and mix with pasta.</li>
-  </ul>
+  <header>
+    <h1>
+      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
+        <use href="#icon-calendar"></use>
+      </svg>
+      Dinner Recipes for the Week
+    </h1>
+  </header>
+
+  <main class="recipes">
+    <div class="recipes-grid">
+      <!-- MONDAY -->
+      <h2><span class="day-badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"></use></svg> Monday</span> — Hidden‑Veggie Beef Pasta</h2>
+      <div class="recipe">
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-ingredients"></use></svg>
+          Ingredients
+        </div>
+        <ul>
+          <li>Whole‑wheat pasta</li>
+          <li>Lean beef mince</li>
+          <li>Passata</li>
+          <li>Carrot, courgette, paprika (grated or finely diced)</li>
+          <li>Onion, garlic</li>
+          <li>Olive oil, oregano, basil</li>
+        </ul>
+
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instructions"></use></svg>
+          Instructions
+        </div>
+        <ul>
+          <li>Cook pasta according to package.</li>
+          <li>Sauté onion and garlic in olive oil.</li>
+          <li>Add beef mince and brown it.</li>
+          <li>Add grated veggies and cook until soft.</li>
+          <li>Pour in passata, season with oregano and basil.</li>
+          <li>Simmer 10 minutes and mix with pasta.</li>
+        </ul>
+      </div>
+
+      <!-- TUESDAY -->
+      <h2><span class="day-badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"></use></svg> Tuesday</span> — Soft Chicken Tacos</h2>
+      <div class="recipe">
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-ingredients"></use></svg>
+          Ingredients
+        </div>
+        <ul>
+          <li>Chicken breast or thighs</li>
+          <li>Whole‑wheat tortillas</li>
+          <li>Lettuce, tomato, avocado</li>
+          <li>Black beans or corn</li>
+          <li>Yoghurt + lime for sauce</li>
+          <li>Spices: paprika, cumin, garlic powder</li>
+        </ul>
+
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instructions"></use></svg>
+          Instructions
+        </div>
+        <ul>
+          <li>Slice chicken and season with paprika, cumin, garlic powder.</li>
+          <li>Pan‑fry until cooked through.</li>
+          <li>Warm tortillas in a dry pan.</li>
+          <li>Prep toppings: chop lettuce, tomato, avocado.</li>
+          <li>Mix yoghurt + lime for a simple sauce.</li>
+          <li>Let kids assemble their own tacos.</li>
+        </ul>
+      </div>
+
+      <!-- WEDNESDAY -->
+      <h2><span class="day-badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"></use></svg> Wednesday</span> — Oven‑Baked White Fish with Potatoes & Green Beans</h2>
+      <div class="recipe">
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-ingredients"></use></svg>
+          Ingredients
+        </div>
+        <ul>
+          <li>White fish fillets (kabeljauw, koolvis, pangasius)</li>
+          <li>Potatoes (wedges or cubes)</li>
+          <li>Green beans</li>
+          <li>Lemon, olive oil, parsley</li>
+        </ul>
+
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instructions"></use></svg>
+          Instructions
+        </div>
+        <ul>
+          <li>Preheat oven to 200°C.</li>
+          <li>Toss potatoes with olive oil, salt, pepper; bake 25–30 min.</li>
+          <li>Steam or boil green beans.</li>
+          <li>Place fish on a tray, drizzle with olive oil and lemon.</li>
+          <li>Bake fish for 12���15 minutes.</li>
+          <li>Serve with parsley and lemon.</li>
+        </ul>
+      </div>
+
+      <!-- THURSDAY -->
+      <h2><span class="day-badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"></use></svg> Thursday</span> — Chicken & Veggie Fried Rice</h2>
+      <div class="recipe">
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-ingredients"></use></svg>
+          Ingredients
+        </div>
+        <ul>
+          <li>Cooked brown rice</li>
+          <li>Chicken breast or thigh</li>
+          <li>Eggs</li>
+          <li>Peas, carrots, corn, spring onion</li>
+          <li>Soy sauce (low salt), tiny splash sesame oil</li>
+        </ul>
+
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instructions"></use></svg>
+          Instructions
+        </div>
+        <ul>
+          <li>Cook rice earlier or use leftovers.</li>
+          <li>Dice chicken and cook in a pan.</li>
+          <li>Add veggies and stir‑fry.</li>
+          <li>Push aside, scramble eggs in the same pan.</li>
+          <li>Add rice, soy sauce, and mix everything.</li>
+          <li>Finish with spring onions.</li>
+        </ul>
+      </div>
+
+      <!-- FRIDAY -->
+      <h2><span class="day-badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"></use></svg> Friday</span> — Mini Pita Pizzas</h2>
+      <div class="recipe">
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-ingredients"></use></svg>
+          Ingredients
+        </div>
+        <ul>
+          <li>Whole‑wheat mini pitas</li>
+          <li>Passata or tomato puree</li>
+          <li>Mozzarella</li>
+          <li>Toppings: paprika, sweetcorn, spinach, chicken pieces</li>
+          <li>Oregano</li>
+        </ul>
+
+        <div class="section-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instructions"></use></svg>
+          Instructions
+        </div>
+        <ul>
+          <li>Preheat oven to 200°C.</li>
+          <li>Spread passata on each pita.</li>
+          <li>Add cheese and toppings.</li>
+          <li>Sprinkle oregano.</li>
+          <li>Bake 8–10 minutes.</li>
+          <li>Let kids design their own pizzas.</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
 </div>
-
-<!-- TUESDAY -->
-<h2>Tuesday — Soft Chicken Tacos</h2>
-<div class="recipe">
-  <div class="section-title">Ingredients</div>
-  <ul>
-    <li>Chicken breast or thighs</li>
-    <li>Whole‑wheat tortillas</li>
-    <li>Lettuce, tomato, avocado</li>
-    <li>Black beans or corn</li>
-    <li>Yoghurt + lime for sauce</li>
-    <li>Spices: paprika, cumin, garlic powder</li>
-  </ul>
-
-  <div class="section-title">Instructions</div>
-  <ul>
-    <li>Slice chicken and season with paprika, cumin, garlic powder.</li>
-    <li>Pan‑fry until cooked through.</li>
-    <li>Warm tortillas in a dry pan.</li>
-    <li>Prep toppings: chop lettuce, tomato, avocado.</li>
-    <li>Mix yoghurt + lime for a simple sauce.</li>
-    <li>Let kids assemble their own tacos.</li>
-  </ul>
-</div>
-
-<!-- WEDNESDAY -->
-<h2>Wednesday — Oven‑Baked White Fish with Potatoes & Green Beans</h2>
-<div class="recipe">
-  <div class="section-title">Ingredients</div>
-  <ul>
-    <li>White fish fillets (kabeljauw, koolvis, pangasius)</li>
-    <li>Potatoes (wedges or cubes)</li>
-    <li>Green beans</li>
-    <li>Lemon, olive oil, parsley</li>
-  </ul>
-
-  <div class="section-title">Instructions</div>
-  <ul>
-    <li>Preheat oven to 200°C.</li>
-    <li>Toss potatoes with olive oil, salt, pepper; bake 25–30 min.</li>
-    <li>Steam or boil green beans.</li>
-    <li>Place fish on a tray, drizzle with olive oil and lemon.</li>
-    <li>Bake fish for 12–15 minutes.</li>
-    <li>Serve with parsley and lemon.</li>
-  </ul>
-</div>
-
-<!-- THURSDAY -->
-<h2>Thursday — Chicken & Veggie Fried Rice</h2>
-<div class="recipe">
-  <div class="section-title">Ingredients</div>
-  <ul>
-    <li>Cooked brown rice</li>
-    <li>Chicken breast or thigh</li>
-    <li>Eggs</li>
-    <li>Peas, carrots, corn, spring onion</li>
-    <li>Soy sauce (low salt), tiny splash sesame oil</li>
-  </ul>
-
-  <div class="section-title">Instructions</div>
-  <ul>
-    <li>Cook rice earlier or use leftovers.</li>
-    <li>Dice chicken and cook in a pan.</li>
-    <li>Add veggies and stir‑fry.</li>
-    <li>Push aside, scramble eggs in the same pan.</li>
-    <li>Add rice, soy sauce, and mix everything.</li>
-    <li>Finish with spring onions.</li>
-  </ul>
-</div>
-
-<!-- FRIDAY -->
-<h2>Friday — Mini Pita Pizzas</h2>
-<div class="recipe">
-  <div class="section-title">Ingredients</div>
-  <ul>
-    <li>Whole‑wheat mini pitas</li>
-    <li>Passata or tomato puree</li>
-    <li>Mozzarella</li>
-    <li>Toppings: paprika, sweetcorn, spinach, chicken pieces</li>
-    <li>Oregano</li>
-  </ul>
-
-  <div class="section-title">Instructions</div>
-  <ul>
-    <li>Preheat oven to 200°C.</li>
-    <li>Spread passata on each pita.</li>
-    <li>Add cheese and toppings.</li>
-    <li>Sprinkle oregano.</li>
-    <li>Bake 8–10 minutes.</li>
-    <li>Let kids design their own pizzas.</li>
-  </ul>
-</div>
-
 </body>
 </html>
