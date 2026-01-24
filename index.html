@@ -55,6 +55,16 @@
     color:var(--accent);
   }
 
+  /* Sticky header containing progress + button */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--bg);
+    padding-top: 8px;
+    padding-bottom: 12px;
+  }
+
   /* Progress Bar Container */
   .progress-wrapper {
     background: var(--card);
@@ -62,7 +72,7 @@
     border-radius: var(--radius);
     box-shadow: 0 4px 18px rgba(12,20,40,0.04);
     border: 1px solid rgba(12,20,40,0.03);
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .progress-info {
@@ -100,7 +110,6 @@
     text-decoration: none;
     box-shadow: 0 3px 10px rgba(11,120,209,0.25);
     transition: background 0.2s ease, transform 0.15s ease;
-    margin-bottom: 20px;
   }
 
   .nav-button:hover {
@@ -190,11 +199,9 @@
       }
     }
 
-    // Initialize on load
     updateProgress();
   });
 </script>
-
 
 </head>
 
@@ -217,23 +224,26 @@
     </h1>
   </header>
 
-  <!-- Progress Bar -->
-  <div class="progress-wrapper">
-    <div class="progress-info">
-      <span id="progress-text">0%</span>
-      <span id="progress-message">Time to get shopping, Seany!</span>
-    </div>
-    <div class="progress-bar">
-      <div id="progress-fill"></div>
-    </div>
-  </div>
+  <!-- Sticky Progress + Button -->
+  <div class="sticky-header">
 
-  <!-- Back Button -->
-  <nav style="text-align:center;">
-    <a href="https://thetransformationfoundry.github.io/Shopping-/whatscooking.html" class="nav-button">
-      Back to Recipes
-    </a>
-  </nav>
+    <div class="progress-wrapper">
+      <div class="progress-info">
+        <span id="progress-text">0%</span>
+        <span id="progress-message">Time to get shopping, Seany!</span>
+      </div>
+      <div class="progress-bar">
+        <div id="progress-fill"></div>
+      </div>
+    </div>
+
+    <nav style="text-align:center;">
+      <a href="https://thetransformationfoundry.github.io/Shopping-/whatscooking.html" class="nav-button">
+        Back to Recipes
+      </a>
+    </nav>
+
+  </div>
 
   <!-- PRODUCE -->
   <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Produce</h2>
