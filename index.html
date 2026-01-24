@@ -144,9 +144,12 @@
   }
 
   /* Section headers */
-  h2 {
+  .section {
     margin-top: 32px;
-    margin-bottom: 12px;
+  }
+
+  .section h2 {
+    margin: 0 0 12px 0;
     font-size: 1.2rem;
     color: var(--accent);
     display:flex;
@@ -162,6 +165,10 @@
   }
 
   /* Shopping item card */
+  .section-items {
+    margin-top: 4px;
+  }
+
   .item {
     display: flex;
     align-items: center;
@@ -249,81 +256,91 @@
   <input type="text" id="search" class="search-box" placeholder="Search items...">
 
   <!-- GENERAL ITEMS -->
-  <div class="section-content">
+  <div class="section">
     <h2><svg class="section-icon"><use href="#icon-list"></use></svg> General Items</h2>
-    <label class="item"><input type="checkbox"><span>2 x Big Low Fat Milk</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Bags White rolls</span></label>
-    <label class="item"><input type="checkbox"><span>5 x Nice Bread Rolls</span></label>
-    <label class="item"><input type="checkbox"><span>5 x Hamburger Patties</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Drain Cleaner</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Frozen Chips</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Bag Pears</span></label>
-    <label class="item"><input type="checkbox"><span>2 x Cucumber</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Bag Apples</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Cheese</span></label>
-    <label class="item"><input type="checkbox"><span>2 x Breakfast Bars</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Coffee</span></label>
-    <label class="item"><input type="checkbox"><span>1 x 24 Eggs Tray</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Whole Wheat Bread</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Dishwashing Tablets</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Clothing Washing Tablets</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Muesli</span></label>
-    <label class="item"><input type="checkbox"><span>1 x Bananas</span></label>
+    <div class="section-items">
+      <label class="item"><input type="checkbox"><span>2 x Big Low Fat Milk</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bags White rolls</span></label>
+      <label class="item"><input type="checkbox"><span>5 x Nice Bread Rolls</span></label>
+      <label class="item"><input type="checkbox"><span>5 x Hamburger Patties</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Drain Cleaner</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Frozen Chips</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bag Pears</span></label>
+      <label class="item"><input type="checkbox"><span>2 x Cucumber</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bag Apples</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Cheese</span></label>
+      <label class="item"><input type="checkbox"><span>2 x Breakfast Bars</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Coffee</span></label>
+      <label class="item"><input type="checkbox"><span>1 x 24 Eggs Tray</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Whole Wheat Bread</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Dishwashing Tablets</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Clothing Washing Tablets</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Muesli</span></label>
+      <label class="item"><input type="checkbox"><span>1 x Bananas</span></label>
+    </div>
   </div>
 
   <!-- PRODUCE -->
-  <div class="section-content">
+  <div class="section">
     <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Produce</h2>
-    <label class="item"><input type="checkbox"><span>Carrots</span></label>
-    <label class="item"><input type="checkbox"><span>Courgette</span></label>
-    <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
-    <label class="item"><input type="checkbox"><span>Onions</span></label>
-    <label class="item"><input type="checkbox"><span>Garlic</span></label>
-    <label class="item"><input type="checkbox"><span>Potatoes</span></label>
-    <label class="item"><input type="checkbox"><span>Green beans</span></label>
-    <label class="item"><input type="checkbox"><span>Lettuce</span></label>
-    <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
-    <label class="item"><input type="checkbox"><span>Cucumber</span></label>
-    <label class="item"><input type="checkbox"><span>Avocado</span></label>
-    <label class="item"><input type="checkbox"><span>Spring onions</span></label>
-    <label class="item"><input type="checkbox"><span>Lemons</span></label>
-    <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
+    <div class="section-items">
+      <label class="item"><input type="checkbox"><span>Carrots</span></label>
+      <label class="item"><input type="checkbox"><span>Courgette</span></label>
+      <label class="item"><input type="checkbox"><span>Paprika (2–3)</span></label>
+      <label class="item"><input type="checkbox"><span>Onions</span></label>
+      <label class="item"><input type="checkbox"><span>Garlic</span></label>
+      <label class="item"><input type="checkbox"><span>Potatoes</span></label>
+      <label class="item"><input type="checkbox"><span>Green beans</span></label>
+      <label class="item"><input type="checkbox"><span>Lettuce</span></label>
+      <label class="item"><input type="checkbox"><span>Tomatoes</span></label>
+      <label class="item"><input type="checkbox"><span>Cucumber</span></label>
+      <label class="item"><input type="checkbox"><span>Avocado</span></label>
+      <label class="item"><input type="checkbox"><span>Spring onions</span></label>
+      <label class="item"><input type="checkbox"><span>Lemons</span></label>
+      <label class="item"><input type="checkbox"><span>Fresh parsley</span></label>
+    </div>
   </div>
 
   <!-- PROTEIN -->
-  <div class="section-content">
+  <div class="section">
     <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Protein</h2>
-    <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
-    <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
-    <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
-    <label class="item"><input type="checkbox"><span>Eggs</span></label>
+    <div class="section-items">
+      <label class="item"><input type="checkbox"><span>Lean beef mince</span></label>
+      <label class="item"><input type="checkbox"><span>Chicken breast or thighs (2 packs)</span></label>
+      <label class="item"><input type="checkbox"><span>White fish fillets</span></label>
+      <label class="item"><input type="checkbox"><span>Eggs</span></label>
+    </div>
   </div>
 
   <!-- PANTRY -->
-  <div class="section-content">
+  <div class="section">
     <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Pantry</h2>
-    <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
-    <label class="item"><input type="checkbox"><span>Brown rice</span></label>
-    <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
-    <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
-    <label class="item"><input type="checkbox"><span>Passata</span></label>
-    <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
-    <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
-    <label class="item"><input type="checkbox"><span>Olive oil</span></label>
-    <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
-    <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
-    <label class="item"><input type="checkbox"><span>Cumin</span></label>
-    <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
-    <label class="item"><input type="checkbox"><span>Oregano</span></label>
-    <label class="item"><input type="checkbox"><span>Basil</span></label>
+    <div class="section-items">
+      <label class="item"><input type="checkbox"><span>Whole‑wheat pasta</span></label>
+      <label class="item"><input type="checkbox"><span>Brown rice</span></label>
+      <label class="item"><input type="checkbox"><span>Whole‑wheat tortillas</span></label>
+      <label class="item"><input type="checkbox"><span>Whole‑wheat mini pitas</span></label>
+      <label class="item"><input type="checkbox"><span>Passata</span></label>
+      <label class="item"><input type="checkbox"><span>Tomato puree</span></label>
+      <label class="item"><input type="checkbox"><span>Black beans or corn</span></label>
+      <label class="item"><input type="checkbox"><span>Olive oil</span></label>
+      <label class="item"><input type="checkbox"><span>Soy sauce (low salt)</span></label>
+      <label class="item"><input type="checkbox"><span>Paprika (spice)</span></label>
+      <label class="item"><input type="checkbox"><span>Cumin</span></label>
+      <label class="item"><input type="checkbox"><span>Garlic powder</span></label>
+      <label class="item"><input type="checkbox"><span>Oregano</span></label>
+      <label class="item"><input type="checkbox"><span>Basil</span></label>
+    </div>
   </div>
 
   <!-- DAIRY -->
-  <div class="section-content">
+  <div class="section">
     <h2><svg class="section-icon"><use href="#icon-list"></use></svg> Dairy</h2>
-    <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
-    <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
-    <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
+    <div class="section-items">
+      <label class="item"><input type="checkbox"><span>Mozzarella</span></label>
+      <label class="item"><input type="checkbox"><span>Yoghurt</span></label>
+      <label class="item"><input type="checkbox"><span>Grated cheese (optional)</span></label>
+    </div>
   </div>
 
 </div>
@@ -349,19 +366,19 @@ document.addEventListener("DOMContentLoaded", function () {
       updateProgress();
     });
 
-    // Ensure initial sort reflects saved state
+    // Initial sort based on saved state
     autoSort(box);
   });
 
   /* Auto-sort checked items within their section */
   function autoSort(box) {
     const label = box.closest("label.item");
-    const sectionContent = label.parentElement;
+    const sectionItems = label.parentElement; // .section-items
 
     if (box.checked) {
-      sectionContent.appendChild(label);
+      sectionItems.appendChild(label);
     } else {
-      sectionContent.insertBefore(label, sectionContent.firstChild);
+      sectionItems.insertBefore(label, sectionItems.firstChild);
     }
   }
 
