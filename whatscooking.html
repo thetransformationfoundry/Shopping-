@@ -1,325 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Weekly Recipes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-  :root{
-    --bg: #f6f7fb;
-    --bg-accent: linear-gradient(135deg,#ffffff 0%, #f8fbff 100%);
-    --card: #ffffff;
-    --muted: #6b7280;
-    --text: #0f1724;
-    --accent: #0b78d1; /* change this to alter primary colour */
-    --accent-2: #f59e0b; /* secondary accent for badges */
-    --radius: 12px;
-    --gap: 18px;
-  }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    padding: 28px;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-  }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
 
-  .container{
-    max-width: 900px;
-    margin: 0 auto;
-  }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
 
-  header{
-    text-align:center;
-    margin-bottom: 20px;
-  }
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
 
-  h1 {
-    font-size: 1.8rem;
-    margin: 0;
-    padding: 18px;
-    border-radius: 14px;
-    background: var(--bg-accent);
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 4px 18px rgba(12,20,40,0.06);
-  }
+        .header p {
+            opacity: 0.9;
+        }
 
-  h1 .logo {
-    width:36px;
-    height:36px;
-    display:inline-block;
-    vertical-align:middle;
-    color:var(--accent);
-  }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
 
-  /* Navigation Button */
-  .nav-button {
-    display: inline-block;
-    padding: 10px 18px;
-    background: var(--accent);
-    color: white;
-    border-radius: var(--radius);
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 3px 10px rgba(11,120,209,0.25);
-    transition: background 0.2s ease, transform 0.15s ease;
-  }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
 
-  .nav-button:hover {
-    background: #0968b5;
-    transform: translateY(-2px);
-  }
+        /* Home Screen Styles */
+        .home-screen {
+            display: block;
+        }
 
-  .nav-button:active {
-    transform: translateY(0);
-  }
+        .add-item-section {
+            padding: 30px;
+            background: white;
+            border-bottom: 2px solid #e9ecef;
+        }
 
-  h2 {
-    margin-top: 28px;
-    color: var(--accent);
-    font-size: 1.1rem;
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
 
-  .recipe {
-    background: var(--card);
-    padding: 16px;
-    border-radius: var(--radius);
-    margin-top: 12px;
-    box-shadow: 0 4px 18px rgba(12,20,40,0.04);
-    border: 1px solid rgba(12,20,40,0.03);
-  }
+        .form-row-full {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-  .day-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background: rgba(11,120,209,0.08);
-    color: var(--accent);
-    padding:6px 10px;
-    border-radius:999px;
-    font-weight:600;
-    font-size:0.95rem;
-  }
+        .form-row input, .form-row select, .form-row-full input {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
 
-  .section-title {
-    font-weight:700;
-    margin-top: 12px;
-    margin-bottom: 6px;
-    display:flex;
-    gap:10px;
-    align-items:center;
-    color:var(--text);
-  }
+        .form-row input:focus, .form-row select:focus, .form-row-full input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
 
-  .icon{
-    width:18px;
-    height:18px;
-    display:inline-block;
-    flex: 0 0 18px;
-    fill: currentColor;
-    stroke: none;
-    opacity:0.95;
-  }
+        .btn-add {
+            padding: 14px 24px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
 
-  ul {
-    margin-top: 6px;
-    padding-left: 1.05rem;
-  }
+        .btn-add:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+        }
 
-  li {
-    margin-bottom: 6px;
-  }
+        .current-list {
+            padding: 30px;
+        }
 
-  li::marker{
-    color: var(--accent-2);
-  }
+        .current-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-  @media (min-width: 860px){
-    .recipes-grid{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-    .recipe{ margin-top:0 }
-    h2{ grid-column: span 2; }
-  }
+        .item-preview {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
+        }
 
-  @media print{
-    body{background:white;color:black}
-    .recipe{box-shadow:none;border:none}
-  }
-</style>
+        .item-preview-details {
+            flex: 1;
+        }
+
+        .item-preview-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .item-preview-meta {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .delete-btn-small {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn-small:hover {
+            background: #c82333;
+        }
+
+        .action-buttons {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+            font-size: 18px;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .saved-lists {
+            padding: 30px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .saved-lists h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .saved-list-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #28a745;
+        }
+
+        .saved-list-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .saved-list-info p {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .saved-list-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Shopping Mode Styles */
+        .shopping-screen {
+            display: none;
+        }
+
+        .progress-bar-container {
+            padding: 20px 30px;
+            background: #f8f9fa;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #28a745 100%);
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+
+        .shopping-list {
+            padding: 30px;
+        }
+
+        .category-section {
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .shopping-item {
+            background: white;
+            padding: 18px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .shopping-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .shopping-item.completed {
+            opacity: 0.5;
+            border-color: #28a745;
+            background: #f8f9fa;
+        }
+
+        .shopping-item.completed .item-name {
+            text-decoration: line-through;
+        }
+
+        .shopping-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .item-meta span {
+            background: #f8f9fa;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .item-notes {
+            font-style: italic;
+            color: #495057;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Save List Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
+    <div class="container">
+        <!-- Home Screen -->
+        <div id="homeScreen" class="home-screen">
+            <div class="header">
+                <h1>🛒 Shopping List</h1>
+                <p>Build your list, then shop with ease</p>
+            </div>
 
-  <!-- SVG Icons -->
-  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
-    <symbol id="icon-calendar" viewBox="0 0 24 24">
-      <path d="M7 10h5v5H7z" opacity="0.15"></path>
-      <path d="M7 11h5v4H7z" />
-      <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 14H5V9h14v9z"/>
-    </symbol>
+            <div class="add-item-section">
+                <h2 style="margin-bottom: 20px; color: #333;">Add Items to Your List</h2>
+                <div class="form-row">
+                    <input type="text" id="itemName" placeholder="Item name (e.g., Apples)" required>
+                    <input type="text" id="itemQty" placeholder="Quantity">
+                    <select id="itemCategory">
+                        <option value="Produce">🥬 Produce</option>
+                        <option value="Dairy">🥛 Dairy</option>
+                        <option value="Meat">🥩 Meat</option>
+                        <option value="Pantry">🥫 Pantry</option>
+                        <option value="Frozen">🧊 Frozen</option>
+                        <option value="Bakery">🍞 Bakery</option>
+                        <option value="Beverages">🥤 Beverages</option>
+                        <option value="Snacks">🍿 Snacks</option>
+                        <option value="Household">🧹 Household</option>
+                        <option value="Other">📦 Other</option>
+                    </select>
+                </div>
+                <div class="form-row-full">
+                    <input type="text" id="itemNotes" placeholder="Notes (e.g., organic, brand preference)">
+                </div>
+                <button class="btn-add" onclick="addItem()">➕ Add Item</button>
+            </div>
 
-    <symbol id="icon-ingredients" viewBox="0 0 24 24">
-      <path d="M12 2C8.7 2 6 6 6 6s-1 2 1 4 5 2 5 2 3 0 5-2 1-4 1-4-2.7-4-6-4z" />
-      <path d="M4 20c0 1.1.9 2 2 2h12a1 1 0 0 0 1-1v-3c0-2.2-2.7-4-6-4H9C5.8 14 4 16 4 18v2z" opacity="0.9"/>
-    </symbol>
+            <div class="current-list">
+                <h2>Current List (<span id="itemCount">0</span> items)</h2>
+                <div id="currentListPreview"></div>
+            </div>
 
-    <symbol id="icon-instructions" viewBox="0 0 24 24">
-      <path d="M9 11.5l1.5 1.5L15.5 8l1.5 1.5L10.5 16l-2-2z" />
-      <path d="M19 3H5a2 2 0 0 0-2 2v14l4-4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" opacity="0.08" />
-    </symbol>
-  </svg>
+            <div class="action-buttons">
+                <button class="btn btn-success" onclick="goShopping()" id="goShoppingBtn">
+                    🛍️ Go Shopping
+                </button>
+                <button class="btn btn-primary" onclick="openSaveModal()">
+                    💾 Save This List
+                </button>
+                <button class="btn btn-danger" onclick="clearCurrentList()">
+                    🗑️ Clear List
+                </button>
+            </div>
 
-  <header>
-    <h1>
-      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
-        <use href="#icon-calendar"></use>
-      </svg>
-      Dinner Recipes for the Week
-    </h1>
-  </header>
+            <div class="saved-lists">
+                <h2>Saved Lists</h2>
+                <div id="savedListsContainer"></div>
+            </div>
+        </div>
 
-  <!-- Navigation Button -->
-  <nav style="text-align:center; margin-bottom: 28px;">
-    <a href="https://thetransformationfoundry.github.io/Shopping-/" class="nav-button">
-      Go to Shopping List
-    </a>
-  </nav>
+        <!-- Shopping Screen -->
+        <div id="shoppingScreen" class="shopping-screen">
+            <div class="header">
+                <button class="back-btn" onclick="exitShopping()">← Back</button>
+                <h1>🛍️ Shopping Mode</h1>
+                <p>Check off items as you shop</p>
+            </div>
 
-  <main class="recipes">
-    <div class="recipes-grid">
+            <div class="progress-bar-container">
+                <div class="progress-info">
+                    <span class="progress-text">Progress</span>
+                    <span class="progress-percentage" id="progressPercentage">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
 
-      <!-- MONDAY -->
-      <h2><span class="day-badge"><svg class="icon"><use href="#icon-calendar"></use></svg> Monday</span> — Hidden‑Veggie Beef Pasta</h2>
-      <div class="recipe">
-        <div class="section-title"><svg class="icon"><use href="#icon-ingredients"></use></svg> Ingredients</div>
-        <ul>
-          <li>Whole‑wheat pasta</li>
-          <li>Lean beef mince</li>
-          <li>Passata</li>
-          <li>Carrot, courgette, paprika (grated or finely diced)</li>
-          <li>Onion, garlic</li>
-          <li>Olive oil, oregano, basil</li>
-        </ul>
-
-        <div class="section-title"><svg class="icon"><use href="#icon-instructions"></use></svg> Instructions</div>
-        <ul>
-          <li>Cook pasta according to package.</li>
-          <li>Sauté onion and garlic in olive oil.</li>
-          <li>Add beef mince and brown it.</li>
-          <li>Add grated veggies and cook until soft.</li>
-          <li>Pour in passata, season with oregano and basil.</li>
-          <li>Simmer 10 minutes and mix with pasta.</li>
-        </ul>
-      </div>
-
-      <!-- TUESDAY -->
-      <h2><span class="day-badge"><svg class="icon"><use href="#icon-calendar"></use></svg> Tuesday</span> — Soft Chicken Tacos</h2>
-      <div class="recipe">
-        <div class="section-title"><svg class="icon"><use href="#icon-ingredients"></use></svg> Ingredients</div>
-        <ul>
-          <li>Chicken breast or thighs</li>
-          <li>Whole‑wheat tortillas</li>
-          <li>Lettuce, tomato, avocado</li>
-          <li>Black beans or corn</li>
-          <li>Yoghurt + lime for sauce</li>
-          <li>Spices: paprika, cumin, garlic powder</li>
-        </ul>
-
-        <div class="section-title"><svg class="icon"><use href="#icon-instructions"></use></svg> Instructions</div>
-        <ul>
-          <li>Slice chicken and season with spices.</li>
-          <li>Pan‑fry until cooked through.</li>
-          <li>Warm tortillas.</li>
-          <li>Prep toppings.</li>
-          <li>Mix yoghurt + lime.</li>
-          <li>Let kids assemble their own tacos.</li>
-        </ul>
-      </div>
-
-      <!-- WEDNESDAY -->
-      <h2><span class="day-badge"><svg class="icon"><use href="#icon-calendar"></use></svg> Wednesday</span> — Oven‑Baked White Fish with Potatoes & Green Beans</h2>
-      <div class="recipe">
-        <div class="section-title"><svg class="icon"><use href="#icon-ingredients"></use></svg> Ingredients</div>
-        <ul>
-          <li>White fish fillets</li>
-          <li>Potatoes</li>
-          <li>Green beans</li>
-          <li>Lemon, olive oil, parsley</li>
-        </ul>
-
-        <div class="section-title"><svg class="icon"><use href="#icon-instructions"></use></svg> Instructions</div>
-        <ul>
-          <li>Preheat oven to 200°C.</li>
-          <li>Toss potatoes with oil, salt, pepper; bake 25–30 min.</li>
-          <li>Steam green beans.</li>
-          <li>Place fish on tray, drizzle with oil + lemon.</li>
-          <li>Bake fish for 12–15 minutes.</li>
-          <li>Serve with parsley.</li>
-        </ul>
-      </div>
-
-      <!-- THURSDAY -->
-      <h2><span class="day-badge"><svg class="icon"><use href="#icon-calendar"></use></svg> Thursday</span> — Chicken & Veggie Fried Rice</h2>
-      <div class="recipe">
-        <div class="section-title"><svg class="icon"><use href="#icon-ingredients"></use></svg> Ingredients</div>
-        <ul>
-          <li>Cooked brown rice</li>
-          <li>Chicken breast or thigh</li>
-          <li>Eggs</li>
-          <li>Peas, carrots, corn, spring onion</li>
-          <li>Soy sauce, sesame oil</li>
-        </ul>
-
-        <div class="section-title"><svg class="icon"><use href="#icon-instructions"></use></svg> Instructions</div>
-        <ul>
-          <li>Cook rice earlier or use leftovers.</li>
-          <li>Dice chicken and cook.</li>
-          <li>Add veggies and stir‑fry.</li>
-          <li>Scramble eggs.</li>
-          <li>Add rice + soy sauce.</li>
-          <li>Finish with spring onions.</li>
-        </ul>
-      </div>
-
-      <!-- FRIDAY -->
-      <h2><span class="day-badge"><svg class="icon"><use href="#icon-calendar"></use></svg> Friday</span> — Mini Pita Pizzas</h2>
-      <div class="recipe">
-        <div class="section-title"><svg class="icon"><use href="#icon-ingredients"></use></svg> Ingredients</div>
-        <ul>
-          <li>Whole‑wheat mini pitas</li>
-          <li>Passata</li>
-          <li>Mozzarella</li>
-          <li>Toppings: paprika, sweetcorn, spinach, chicken</li>
-          <li>Oregano</li>
-        </ul>
-
-        <div class="section-title"><svg class="icon"><use href="#icon-instructions"></use></svg> Instructions</div>
-        <ul>
-          <li>Preheat oven to 200°C.</li>
-          <li>Spread passata.</li>
-          <li>Add cheese + toppings.</li>
-          <li>Sprinkle oregano.</li>
-          <li>Bake 8–10 minutes.</li>
-          <li>Let kids design their own pizzas.</li>
-        </ul>
-      </div>
-
+            <div class="shopping-list" id="shoppingList"></div>
+        </div>
     </div>
-  </main>
-</div>
+
+    <!-- Save List Modal -->
+    <div id="saveModal" class="modal">
+        <div class="modal-content">
+            <h3>Save Your Shopping List</h3>
+            <input type="text" id="listNameInput" placeholder="Enter list name (e.g., Weekly Groceries)">
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="saveCurrentList()" style="flex: 1;">Save</button>
+                <button class="btn btn-secondary" onclick="closeSaveModal()" style="flex: 1;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentItems = [];
+        let savedLists = [];
+
+        // Load saved lists from localStorage
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('savedShoppingLists');
+            if (saved) {
+                savedLists = JSON.parse(saved);
+                renderSavedLists();
+            }
+        });
+
+        function addItem() {
+            const name = document.getElementById('itemName').value.trim();
+            const qty = document.getElementById('itemQty').value.trim();
+            const category = document.getElementById('itemCategory').value;
+            const notes = document.getElementById('itemNotes').value.trim();
+
+            if (!name) {
+                alert('Please enter an item name');
+                return;
+            }
+
+            const item = {
+                id: Date.now(),
+                name: name,
+                quantity: qty || '1',
+                category: category,
+                notes: notes,
+                completed: false
+            };
+
+            currentItems.push(item);
+            
+            // Clear form
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemQty').value = '';
+            document.getElementById('itemNotes').value = '';
+            
+            renderCurrentList();
+        }
+
+        function deleteItemFromCurrent(id) {
+            currentItems = currentItems.filter(i => i.id !== id);
+            renderCurrentList();
+        }
+
+        function renderCurrentList() {
+            const container = document.getElementById('currentListPreview');
+            const countElement = document.getElementById('itemCount');
+            const goShoppingBtn = document.getElementById('goShoppingBtn');
+            
+            countElement.textContent = currentItems.length;
+            
+            if (currentItems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 40px 20px;">
+                        <p>No items added yet. Add items above to start your list!</p>
+                    </div>
+                `;
+                goShoppingBtn.disabled = true;
+                goShoppingBtn.style.opacity = '0.5';
+                return;
+            }
+
+            goShoppingBtn.disabled = false;
+            goShoppingBtn.style.opacity = '1';
+
+            let html = '';
+            currentItems.forEach(item => {
+                html += `
+                    <div class="item-preview">
+                        <div class="item-preview-details">
+                            <div class="item-preview-name">${item.name}</div>
+                            <div class="item-preview-meta">
+                                ${item.category} • Qty: ${item.quantity}${item.notes ? ' • ' + item.notes : ''}
+                            </div>
+                        </div>
+                        <button class="delete-btn-small" onclick="deleteItemFromCurrent(${item.id})">Delete</button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function goShopping() {
+            if (currentItems.length === 0) {
+                alert('Add items to your list first!');
+                return;
+            }
+
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('shoppingScreen').style.display = 'block';
+            renderShoppingList();
+        }
+
+        function exitShopping() {
+            // Remove completed items when exiting
+            const hasCompleted = currentItems.some(i => i.completed);
+            
+            if (hasCompleted) {
+                if (confirm('Remove completed items from your list?')) {
+                    currentItems = currentItems.filter(i => !i.completed);
+                }
+            }
+
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('shoppingScreen').style.display = 'none';
+            renderCurrentList();
+        }
+
+        function toggleComplete(id) {
+            const item = currentItems.find(i => i.id === id);
+            if (item) {
+                item.completed = !item.completed;
+                renderShoppingList();
+            }
+        }
+
+        function renderShoppingList() {
+            const container = document.getElementById('shoppingList');
+            
+            // Update progress
+            const total = currentItems.length;
+            const completed = currentItems.filter(i => i.completed).length;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            document.getElementById('progressPercentage').textContent = percentage + '%';
+            document.getElementById('progressFill').style.width = percentage + '%';
+
+            // Group by category
+            const categories = {};
+            currentItems.forEach(item => {
+                if (!categories[item.category]) {
+                    categories[item.category] = [];
+                }
+                categories[item.category].push(item);
+            });
+
+            let html = '';
+            const sortedCategories = Object.keys(categories).sort();
+            
+            sortedCategories.forEach(category => {
+                const items = categories[category];
+                
+                html += `
+                    <div class="category-section">
+                        <div class="category-header">${category}</div>
+                `;
+                
+                items.forEach(item => {
+                    html += `
+                        <div class="shopping-item ${item.completed ? 'completed' : ''}">
+                            <input type="checkbox" 
+                                   ${item.completed ? 'checked' : ''} 
+                                   onchange="toggleComplete(${item.id})">
+                            <div class="item-details">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-meta">
+                                    <span>📦 ${item.quantity}</span>
+                                    ${item.notes ? `<span>📝 ${item.notes}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function clearCurrentList() {
+            if (currentItems.length === 0) return;
+            
+            if (confirm('Clear all items from current list?')) {
+                currentItems = [];
+                renderCurrentList();
+            }
+        }
+
+        // Save List Modal Functions
+        function openSaveModal() {
+            if (currentItems.length === 0) {
+                alert('Add items to your list first!');
+                return;
+            }
+            document.getElementById('saveModal').classList.add('active');
+            document.getElementById('listNameInput').focus();
+        }
+
+        function closeSaveModal() {
+            document.getElementById('saveModal').classList.remove('active');
+            document.getElementById('listNameInput').value = '';
+        }
+
+        function saveCurrentList() {
+            const name = document.getElementById('listNameInput').value.trim();
+            
+            if (!name) {
+                alert('Please enter a name for your list');
+                return;
+            }
+
+            const savedList = {
+                id: Date.now(),
+                name: name,
+                items: JSON.parse(JSON.stringify(currentItems.map(i => ({...i, completed: false})))),
+                dateCreated: new Date().toISOString()
+            };
+
+            savedLists.push(savedList);
+            localStorage.setItem('savedShoppingLists', JSON.stringify(savedLists));
+            
+            closeSaveModal();
+            renderSavedLists();
+            alert('List saved successfully!');
+        }
+
+        function loadSavedList(id) {
+            const list = savedLists.find(l => l.id === id);
+            if (list) {
+                if (currentItems.length > 0) {
+                    if (!confirm('This will replace your current list. Continue?')) {
+                        return;
+                    }
+                }
+                currentItems = JSON.parse(JSON.stringify(list.items));
+                renderCurrentList();
+                alert(`Loaded "${list.name}"`);
+            }
+        }
+
+        function deleteSavedList(id) {
+            if (confirm('Delete this saved list?')) {
+                savedLists = savedLists.filter(l => l.id !== id);
+                localStorage.setItem('savedShoppingLists', JSON.stringify(savedLists));
+                renderSavedLists();
+            }
+        }
+
+        function renderSavedLists() {
+            const container = document.getElementById('savedListsContainer');
+            
+            if (savedLists.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 40px 20px;">
+                        <p>No saved lists yet. Create a list and save it for future shopping trips!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            savedLists.forEach(list => {
+                const date = new Date(list.dateCreated).toLocaleDateString();
+                html += `
+                    <div class="saved-list-item">
+                        <div class="saved-list-info">
+                            <h3>${list.name}</h3>
+                            <p>${list.items.length} items • Saved ${date}</p>
+                        </div>
+                        <div class="saved-list-actions">
+                            <button class="btn-small btn-primary" onclick="loadSavedList(${list.id})">Load</button>
+                            <button class="btn-small btn-danger" onclick="deleteSavedList(${list.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Allow Enter key to add items
+        document.getElementById('itemName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addItem();
+        });
+        document.getElementById('itemNotes').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addItem();
+        });
+        document.getElementById('listNameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') saveCurrentList();
+        });
+
+        // Initial render
+        renderCurrentList();
+        renderSavedLists();
+    </script>
 </body>
 </html>
