@@ -651,6 +651,34 @@
         </div>
     </div>
 
+    <!-- Edit Item Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Item</h3>
+            <div class="form-row" style="margin-bottom: 10px;">
+                <input type="text" id="editItemName" placeholder="Item name" style="width: 100%; margin-bottom: 10px;">
+                <input type="text" id="editItemQty" placeholder="Quantity" style="width: 100%; margin-bottom: 10px;">
+                <select id="editItemCategory" style="width: 100%; margin-bottom: 10px;">
+                    <option value="Produce">🥬 Produce</option>
+                    <option value="Dairy">🥛 Dairy</option>
+                    <option value="Meat">🥩 Meat</option>
+                    <option value="Pantry">🥫 Pantry</option>
+                    <option value="Frozen">🧊 Frozen</option>
+                    <option value="Bakery">🍞 Bakery</option>
+                    <option value="Beverages">🥤 Beverages</option>
+                    <option value="Snacks">🍿 Snacks</option>
+                    <option value="Household">🧹 Household</option>
+                    <option value="Other">📦 Other</option>
+                </select>
+            </div>
+            <input type="text" id="editItemNotes" placeholder="Notes" style="width: 100%; margin-bottom: 20px; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px;">
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="saveEditedItem()" style="flex: 1;">Save Changes</button>
+                <button class="btn btn-secondary" onclick="closeEditModal()" style="flex: 1;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -762,6 +790,8 @@
         // ========================================
         // ITEM MANAGEMENT
         // ========================================
+        let editingItemId = null;
+
         async function addItem() {
             const name = document.getElementById('itemName').value.trim();
             const qty = document.getElementById('itemQty').value.trim();
@@ -803,6 +833,63 @@
             }
         }
 
+        function openEditModal(id) {
+            const item = currentItems.find(i => i.id === id);
+            if (!item) return;
+
+            editingItemId = id;
+            document.getElementById('editItemName').value = item.name;
+            document.getElementById('editItemQty').value = item.quantity;
+            document.getElementById('editItemCategory').value = item.category;
+            document.getElementById('editItemNotes').value = item.notes || '';
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            editingItemId = null;
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        async function saveEditedItem() {
+            if (!editingItemId) return;
+
+            const name = document.getElementById('editItemName').value.trim();
+            const qty = document.getElementById('editItemQty').value.trim();
+            const category = document.getElementById('editItemCategory').value;
+            const notes = document.getElementById('editItemNotes').value.trim();
+
+            if (!name) {
+                alert('Please enter an item name');
+                return;
+            }
+
+            const updatedData = {
+                name: name,
+                quantity: qty || '1',
+                category: category,
+                notes: notes
+            };
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    await db.collection('lists').doc(activeListId).collection('items').doc(editingItemId).update(updatedData);
+                    closeEditModal();
+                } catch (error) {
+                    console.error("Error updating item:", error);
+                    alert('Failed to update item. Please try again.');
+                }
+            } else {
+                const item = currentItems.find(i => i.id === editingItemId);
+                if (item) {
+                    Object.assign(item, updatedData);
+                    saveToLocalStorage();
+                    renderCurrentList();
+                    closeEditModal();
+                }
+            }
+        }
+
         async function deleteItemFromCurrent(id) {
             if (isFirebaseConfigured) {
                 updateSyncStatus('syncing');
@@ -810,6 +897,7 @@
                     await db.collection('lists').doc(activeListId).collection('items').doc(id).delete();
                 } catch (error) {
                     console.error("Error deleting item:", error);
+                    alert('Failed to delete item. Please try again.');
                 }
             } else {
                 currentItems = currentItems.filter(i => i.id !== id);
@@ -962,6 +1050,57 @@
             }
         }
 
+        async function editSavedList(id) {
+            const list = savedLists.find(l => l.id === id);
+            if (!list) return;
+
+            if (currentItems.length > 0) {
+                if (!confirm(`Replace current list with "${list.name}" to edit it?`)) {
+                    return;
+                }
+            }
+
+            // Load the list into current items
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    // Clear current items
+                    const batch = db.batch();
+                    const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
+                    snapshot.docs.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+
+                    // Add items from saved list
+                    const batch2 = db.batch();
+                    list.items.forEach(item => {
+                        const docRef = db.collection('lists').doc(activeListId).collection('items').doc();
+                        batch2.set(docRef, {
+                            ...item,
+                            timestamp: Date.now()
+                        });
+                    });
+                    await batch2.commit();
+                    
+                    // Delete the old saved list
+                    await db.collection('savedLists').doc(id).delete();
+                    
+                    alert(`Now editing "${list.name}". Make your changes and save the list again when done.`);
+                } catch (error) {
+                    console.error("Error loading list for editing:", error);
+                    alert('Failed to load list for editing. Please try again.');
+                }
+            } else {
+                currentItems = JSON.parse(JSON.stringify(list.items));
+                savedLists = savedLists.filter(l => l.id !== id);
+                saveToLocalStorage();
+                renderCurrentList();
+                renderSavedLists();
+                alert(`Now editing "${list.name}". Make your changes and save the list again when done.`);
+            }
+        }
+
         async function deleteSavedList(id) {
             if (!confirm('Delete this saved list?')) return;
 
@@ -1053,7 +1192,10 @@
                                 ${item.category} • Qty: ${item.quantity}${item.notes ? ' • ' + item.notes : ''}
                             </div>
                         </div>
-                        <button class="delete-btn-small" onclick="deleteItemFromCurrent('${item.id}')">Delete</button>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-small btn-secondary" onclick="openEditModal('${item.id}')" style="background: #667eea;">Edit</button>
+                            <button class="delete-btn-small" onclick="deleteItemFromCurrent('${item.id}')">Delete</button>
+                        </div>
                     </div>
                 `;
             });
@@ -1138,6 +1280,7 @@
                         </div>
                         <div class="saved-list-actions">
                             <button class="btn-small btn-primary" onclick="loadSavedList('${list.id}')">Load</button>
+                            <button class="btn-small btn-secondary" onclick="editSavedList('${list.id}')">Edit</button>
                             <button class="btn-small btn-danger" onclick="deleteSavedList('${list.id}')">Delete</button>
                         </div>
                     </div>
