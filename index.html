@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping List App</title>
+    <title>Shopping List App - Cloud Sync</title>
     <style>
         * {
             margin: 0;
@@ -42,6 +42,32 @@
 
         .header p {
             opacity: 0.9;
+        }
+
+        .sync-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sync-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #28a745;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .back-btn {
@@ -461,6 +487,36 @@
             gap: 10px;
         }
 
+        .setup-notice {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            color: #856404;
+        }
+
+        .setup-notice h3 {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        .setup-notice ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .setup-notice li {
+            margin-bottom: 8px;
+        }
+
+        .setup-notice code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -473,16 +529,41 @@
             .btn {
                 min-width: 100%;
             }
+
+            .sync-status {
+                position: static;
+                margin-top: 10px;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Setup Notice (will be hidden once Firebase is configured) -->
+        <div id="setupNotice" class="setup-notice" style="display: none;">
+            <h3>⚠️ Firebase Setup Required</h3>
+            <p>To enable cloud sync, please complete these steps:</p>
+            <ol>
+                <li>Go to <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a></li>
+                <li>Create a new project (or use existing)</li>
+                <li>Add a Web App to your project</li>
+                <li>Enable Firestore Database (Start in test mode)</li>
+                <li>Copy your Firebase config</li>
+                <li>Replace the <code>firebaseConfig</code> object in this file (line ~600)</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Until configured, the app will work in offline-only mode.</strong></p>
+        </div>
+
         <!-- Home Screen -->
         <div id="homeScreen" class="home-screen">
             <div class="header">
+                <div class="sync-status" id="syncStatus">
+                    <div class="sync-indicator"></div>
+                    <span>Synced</span>
+                </div>
                 <h1>🛒 Shopping List</h1>
-                <p>Build your list, then shop with ease</p>
+                <p>Build your list, sync with family</p>
             </div>
 
             <div class="add-item-section">
@@ -527,7 +608,7 @@
             </div>
 
             <div class="saved-lists">
-                <h2>Saved Lists</h2>
+                <h2>Saved Lists (Cloud Synced)</h2>
                 <div id="savedListsContainer"></div>
             </div>
         </div>
@@ -536,6 +617,10 @@
         <div id="shoppingScreen" class="shopping-screen">
             <div class="header">
                 <button class="back-btn" onclick="exitShopping()">← Back</button>
+                <div class="sync-status" id="syncStatusShopping">
+                    <div class="sync-indicator"></div>
+                    <span>Synced</span>
+                </div>
                 <h1>🛍️ Shopping Mode</h1>
                 <p>Check off items as you shop</p>
             </div>
@@ -566,20 +651,118 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // ========================================
+        // FIREBASE CONFIGURATION
+        // ========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrnSOATLFS_s5xB1vN8a6ASnR9e5zwbBg",
+            authDomain: "go-shopping-2a41b.firebaseapp.com",
+            projectId: "go-shopping-2a41b",
+            storageBucket: "go-shopping-2a41b.firebasestorage.app",
+            messagingSenderId: "300500597505",
+            appId: "1:300500597505:web:6f6bea72eb195dcebc3900",
+            measurementId: "G-MDSVGW6PLG"
+        };
+
+        // Initialize Firebase
+        let db = null;
+        let isFirebaseConfigured = false;
+
+        try {
+            if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                isFirebaseConfigured = true;
+                console.log("✅ Firebase initialized successfully");
+            } else {
+                console.warn("⚠️ Firebase not configured. Running in offline mode.");
+                document.getElementById('setupNotice').style.display = 'block';
+            }
+        } catch (error) {
+            console.error("❌ Firebase initialization error:", error);
+            document.getElementById('setupNotice').style.display = 'block';
+        }
+
+        // ========================================
+        // APP STATE
+        // ========================================
         let currentItems = [];
         let savedLists = [];
+        let activeListId = 'default'; // Can be changed to support multiple active lists
 
-        // Load saved lists from localStorage
-        window.addEventListener('load', () => {
-            const saved = localStorage.getItem('savedShoppingLists');
-            if (saved) {
-                savedLists = JSON.parse(saved);
-                renderSavedLists();
+        // ========================================
+        // FIREBASE REAL-TIME SYNC
+        // ========================================
+        function setupRealtimeSync() {
+            if (!isFirebaseConfigured) {
+                // Fallback to localStorage
+                loadFromLocalStorage();
+                return;
             }
-        });
 
-        function addItem() {
+            // Listen to current list items
+            db.collection('lists').doc(activeListId).collection('items')
+                .onSnapshot((snapshot) => {
+                    currentItems = [];
+                    snapshot.forEach((doc) => {
+                        currentItems.push({ id: doc.id, ...doc.data() });
+                    });
+                    currentItems.sort((a, b) => a.timestamp - b.timestamp);
+                    renderCurrentList();
+                    if (document.getElementById('shoppingScreen').style.display === 'block') {
+                        renderShoppingList();
+                    }
+                    updateSyncStatus('synced');
+                }, (error) => {
+                    console.error("Sync error:", error);
+                    updateSyncStatus('error');
+                });
+
+            // Listen to saved lists
+            db.collection('savedLists')
+                .onSnapshot((snapshot) => {
+                    savedLists = [];
+                    snapshot.forEach((doc) => {
+                        savedLists.push({ id: doc.id, ...doc.data() });
+                    });
+                    savedLists.sort((a, b) => b.dateCreated - a.dateCreated);
+                    renderSavedLists();
+                });
+        }
+
+        function updateSyncStatus(status) {
+            const statusElements = [
+                document.getElementById('syncStatus'),
+                document.getElementById('syncStatusShopping')
+            ];
+            
+            statusElements.forEach(el => {
+                if (!el) return;
+                const indicator = el.querySelector('.sync-indicator');
+                const text = el.querySelector('span');
+                
+                if (status === 'synced') {
+                    indicator.style.background = '#28a745';
+                    text.textContent = 'Synced';
+                } else if (status === 'syncing') {
+                    indicator.style.background = '#ffc107';
+                    text.textContent = 'Syncing...';
+                } else if (status === 'error') {
+                    indicator.style.background = '#dc3545';
+                    text.textContent = 'Offline';
+                }
+            });
+        }
+
+        // ========================================
+        // ITEM MANAGEMENT
+        // ========================================
+        async function addItem() {
             const name = document.getElementById('itemName').value.trim();
             const qty = document.getElementById('itemQty').value.trim();
             const category = document.getElementById('itemCategory').value;
@@ -591,29 +774,254 @@
             }
 
             const item = {
-                id: Date.now(),
                 name: name,
                 quantity: qty || '1',
                 category: category,
                 notes: notes,
-                completed: false
+                completed: false,
+                timestamp: Date.now()
             };
 
-            currentItems.push(item);
-            
             // Clear form
             document.getElementById('itemName').value = '';
             document.getElementById('itemQty').value = '';
             document.getElementById('itemNotes').value = '';
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    await db.collection('lists').doc(activeListId).collection('items').add(item);
+                } catch (error) {
+                    console.error("Error adding item:", error);
+                    alert('Failed to add item. Please check your connection.');
+                }
+            } else {
+                item.id = Date.now().toString();
+                currentItems.push(item);
+                saveToLocalStorage();
+                renderCurrentList();
+            }
+        }
+
+        async function deleteItemFromCurrent(id) {
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    await db.collection('lists').doc(activeListId).collection('items').doc(id).delete();
+                } catch (error) {
+                    console.error("Error deleting item:", error);
+                }
+            } else {
+                currentItems = currentItems.filter(i => i.id !== id);
+                saveToLocalStorage();
+                renderCurrentList();
+            }
+        }
+
+        async function toggleComplete(id) {
+            const item = currentItems.find(i => i.id === id);
+            if (!item) return;
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    await db.collection('lists').doc(activeListId).collection('items').doc(id).update({
+                        completed: !item.completed
+                    });
+                } catch (error) {
+                    console.error("Error updating item:", error);
+                }
+            } else {
+                item.completed = !item.completed;
+                saveToLocalStorage();
+                renderCurrentList();
+                if (document.getElementById('shoppingScreen').style.display === 'block') {
+                    renderShoppingList();
+                }
+            }
+        }
+
+        async function clearCurrentList() {
+            if (currentItems.length === 0) return;
             
-            renderCurrentList();
+            if (!confirm('Clear all items from current list?')) return;
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    const batch = db.batch();
+                    const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
+                    snapshot.docs.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                } catch (error) {
+                    console.error("Error clearing list:", error);
+                }
+            } else {
+                currentItems = [];
+                saveToLocalStorage();
+                renderCurrentList();
+            }
         }
 
-        function deleteItemFromCurrent(id) {
-            currentItems = currentItems.filter(i => i.id !== id);
-            renderCurrentList();
+        // ========================================
+        // SAVED LISTS
+        // ========================================
+        function openSaveModal() {
+            if (currentItems.length === 0) {
+                alert('Add items to your list first!');
+                return;
+            }
+            document.getElementById('saveModal').classList.add('active');
+            document.getElementById('listNameInput').focus();
         }
 
+        function closeSaveModal() {
+            document.getElementById('saveModal').classList.remove('active');
+            document.getElementById('listNameInput').value = '';
+        }
+
+        async function saveCurrentList() {
+            const name = document.getElementById('listNameInput').value.trim();
+            
+            if (!name) {
+                alert('Please enter a name for your list');
+                return;
+            }
+
+            const savedList = {
+                name: name,
+                items: currentItems.map(i => ({...i, completed: false})),
+                itemCount: currentItems.length,
+                dateCreated: Date.now()
+            };
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    await db.collection('savedLists').add(savedList);
+                    closeSaveModal();
+                    alert('List saved and synced to cloud!');
+                } catch (error) {
+                    console.error("Error saving list:", error);
+                    alert('Failed to save list. Please try again.');
+                }
+            } else {
+                savedList.id = Date.now().toString();
+                savedLists.push(savedList);
+                saveToLocalStorage();
+                closeSaveModal();
+                renderSavedLists();
+                alert('List saved locally!');
+            }
+        }
+
+        async function loadSavedList(id) {
+            const list = savedLists.find(l => l.id === id);
+            if (!list) return;
+
+            if (currentItems.length > 0) {
+                if (!confirm(`Replace current list with "${list.name}"?`)) {
+                    return;
+                }
+            }
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    // Clear current items
+                    const batch = db.batch();
+                    const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
+                    snapshot.docs.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+
+                    // Add items from saved list
+                    const batch2 = db.batch();
+                    list.items.forEach(item => {
+                        const docRef = db.collection('lists').doc(activeListId).collection('items').doc();
+                        batch2.set(docRef, {
+                            ...item,
+                            timestamp: Date.now()
+                        });
+                    });
+                    await batch2.commit();
+                    
+                    alert(`Loaded "${list.name}"`);
+                } catch (error) {
+                    console.error("Error loading list:", error);
+                    alert('Failed to load list. Please try again.');
+                }
+            } else {
+                currentItems = JSON.parse(JSON.stringify(list.items));
+                saveToLocalStorage();
+                renderCurrentList();
+                alert(`Loaded "${list.name}"`);
+            }
+        }
+
+        async function deleteSavedList(id) {
+            if (!confirm('Delete this saved list?')) return;
+
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    await db.collection('savedLists').doc(id).delete();
+                } catch (error) {
+                    console.error("Error deleting list:", error);
+                }
+            } else {
+                savedLists = savedLists.filter(l => l.id !== id);
+                saveToLocalStorage();
+                renderSavedLists();
+            }
+        }
+
+        // ========================================
+        // SHOPPING MODE
+        // ========================================
+        function goShopping() {
+            if (currentItems.length === 0) {
+                alert('Add items to your list first!');
+                return;
+            }
+
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('shoppingScreen').style.display = 'block';
+            renderShoppingList();
+        }
+
+        async function exitShopping() {
+            const hasCompleted = currentItems.some(i => i.completed);
+            
+            if (hasCompleted && confirm('Remove completed items from your list?')) {
+                if (isFirebaseConfigured) {
+                    updateSyncStatus('syncing');
+                    try {
+                        const batch = db.batch();
+                        currentItems.filter(i => i.completed).forEach(item => {
+                            const docRef = db.collection('lists').doc(activeListId).collection('items').doc(item.id);
+                            batch.delete(docRef);
+                        });
+                        await batch.commit();
+                    } catch (error) {
+                        console.error("Error removing completed items:", error);
+                    }
+                } else {
+                    currentItems = currentItems.filter(i => !i.completed);
+                    saveToLocalStorage();
+                }
+            }
+
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('shoppingScreen').style.display = 'none';
+        }
+
+        // ========================================
+        // RENDERING
+        // ========================================
         function renderCurrentList() {
             const container = document.getElementById('currentListPreview');
             const countElement = document.getElementById('itemCount');
@@ -645,46 +1053,12 @@
                                 ${item.category} • Qty: ${item.quantity}${item.notes ? ' • ' + item.notes : ''}
                             </div>
                         </div>
-                        <button class="delete-btn-small" onclick="deleteItemFromCurrent(${item.id})">Delete</button>
+                        <button class="delete-btn-small" onclick="deleteItemFromCurrent('${item.id}')">Delete</button>
                     </div>
                 `;
             });
             
             container.innerHTML = html;
-        }
-
-        function goShopping() {
-            if (currentItems.length === 0) {
-                alert('Add items to your list first!');
-                return;
-            }
-
-            document.getElementById('homeScreen').style.display = 'none';
-            document.getElementById('shoppingScreen').style.display = 'block';
-            renderShoppingList();
-        }
-
-        function exitShopping() {
-            // Remove completed items when exiting
-            const hasCompleted = currentItems.some(i => i.completed);
-            
-            if (hasCompleted) {
-                if (confirm('Remove completed items from your list?')) {
-                    currentItems = currentItems.filter(i => !i.completed);
-                }
-            }
-
-            document.getElementById('homeScreen').style.display = 'block';
-            document.getElementById('shoppingScreen').style.display = 'none';
-            renderCurrentList();
-        }
-
-        function toggleComplete(id) {
-            const item = currentItems.find(i => i.id === id);
-            if (item) {
-                item.completed = !item.completed;
-                renderShoppingList();
-            }
         }
 
         function renderShoppingList() {
@@ -723,7 +1097,7 @@
                         <div class="shopping-item ${item.completed ? 'completed' : ''}">
                             <input type="checkbox" 
                                    ${item.completed ? 'checked' : ''} 
-                                   onchange="toggleComplete(${item.id})">
+                                   onchange="toggleComplete('${item.id}')">
                             <div class="item-details">
                                 <div class="item-name">${item.name}</div>
                                 <div class="item-meta">
@@ -739,75 +1113,6 @@
             });
             
             container.innerHTML = html;
-        }
-
-        function clearCurrentList() {
-            if (currentItems.length === 0) return;
-            
-            if (confirm('Clear all items from current list?')) {
-                currentItems = [];
-                renderCurrentList();
-            }
-        }
-
-        // Save List Modal Functions
-        function openSaveModal() {
-            if (currentItems.length === 0) {
-                alert('Add items to your list first!');
-                return;
-            }
-            document.getElementById('saveModal').classList.add('active');
-            document.getElementById('listNameInput').focus();
-        }
-
-        function closeSaveModal() {
-            document.getElementById('saveModal').classList.remove('active');
-            document.getElementById('listNameInput').value = '';
-        }
-
-        function saveCurrentList() {
-            const name = document.getElementById('listNameInput').value.trim();
-            
-            if (!name) {
-                alert('Please enter a name for your list');
-                return;
-            }
-
-            const savedList = {
-                id: Date.now(),
-                name: name,
-                items: JSON.parse(JSON.stringify(currentItems.map(i => ({...i, completed: false})))),
-                dateCreated: new Date().toISOString()
-            };
-
-            savedLists.push(savedList);
-            localStorage.setItem('savedShoppingLists', JSON.stringify(savedLists));
-            
-            closeSaveModal();
-            renderSavedLists();
-            alert('List saved successfully!');
-        }
-
-        function loadSavedList(id) {
-            const list = savedLists.find(l => l.id === id);
-            if (list) {
-                if (currentItems.length > 0) {
-                    if (!confirm('This will replace your current list. Continue?')) {
-                        return;
-                    }
-                }
-                currentItems = JSON.parse(JSON.stringify(list.items));
-                renderCurrentList();
-                alert(`Loaded "${list.name}"`);
-            }
-        }
-
-        function deleteSavedList(id) {
-            if (confirm('Delete this saved list?')) {
-                savedLists = savedLists.filter(l => l.id !== id);
-                localStorage.setItem('savedShoppingLists', JSON.stringify(savedLists));
-                renderSavedLists();
-            }
         }
 
         function renderSavedLists() {
@@ -829,11 +1134,11 @@
                     <div class="saved-list-item">
                         <div class="saved-list-info">
                             <h3>${list.name}</h3>
-                            <p>${list.items.length} items • Saved ${date}</p>
+                            <p>${list.itemCount} items • Saved ${date}</p>
                         </div>
                         <div class="saved-list-actions">
-                            <button class="btn-small btn-primary" onclick="loadSavedList(${list.id})">Load</button>
-                            <button class="btn-small btn-danger" onclick="deleteSavedList(${list.id})">Delete</button>
+                            <button class="btn-small btn-primary" onclick="loadSavedList('${list.id}')">Load</button>
+                            <button class="btn-small btn-danger" onclick="deleteSavedList('${list.id}')">Delete</button>
                         </div>
                     </div>
                 `;
@@ -842,20 +1147,46 @@
             container.innerHTML = html;
         }
 
-        // Allow Enter key to add items
-        document.getElementById('itemName').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addItem();
-        });
-        document.getElementById('itemNotes').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addItem();
-        });
-        document.getElementById('listNameInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') saveCurrentList();
-        });
+        // ========================================
+        // LOCAL STORAGE FALLBACK
+        // ========================================
+        function saveToLocalStorage() {
+            localStorage.setItem('currentItems', JSON.stringify(currentItems));
+            localStorage.setItem('savedLists', JSON.stringify(savedLists));
+        }
 
-        // Initial render
-        renderCurrentList();
-        renderSavedLists();
+        function loadFromLocalStorage() {
+            const savedItems = localStorage.getItem('currentItems');
+            const savedListsData = localStorage.getItem('savedLists');
+            
+            if (savedItems) {
+                currentItems = JSON.parse(savedItems);
+            }
+            if (savedListsData) {
+                savedLists = JSON.parse(savedListsData);
+            }
+            
+            renderCurrentList();
+            renderSavedLists();
+        }
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        window.addEventListener('load', () => {
+            setupRealtimeSync();
+            
+            // Enter key handlers
+            document.getElementById('itemName').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addItem();
+            });
+            document.getElementById('itemNotes').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addItem();
+            });
+            document.getElementById('listNameInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') saveCurrentList();
+            });
+        });
     </script>
 </body>
 </html>
