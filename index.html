@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,532 +12,535 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-        }
+    .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+    }
 
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
+    .header h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
 
-        .header p {
-            opacity: 0.9;
-        }
+    .header p {
+        opacity: 0.9;
+    }
 
-        .sync-status {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .sync-status {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255,255,255,0.2);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-        .sync-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #28a745;
-            animation: pulse 2s infinite;
-        }
+    .sync-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #28a745;
+        animation: pulse 2s infinite;
+    }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
 
-        .back-btn {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
+    .back-btn {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
 
-        .back-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
+    .back-btn:hover {
+        background: rgba(255,255,255,0.3);
+    }
 
-        /* Home Screen Styles */
-        .home-screen {
-            display: block;
-        }
+    /* Home Screen Styles */
+    .home-screen {
+        display: block;
+    }
 
-        .add-item-section {
-            padding: 30px;
-            background: white;
-            border-bottom: 2px solid #e9ecef;
-        }
+    .add-item-section {
+        padding: 30px;
+        background: white;
+        border-bottom: 2px solid #e9ecef;
+    }
 
+    .form-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .form-row-full {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .form-row input, .form-row select, .form-row-full input {
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+
+    .form-row input:focus, .form-row select:focus, .form-row-full input:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    .btn-add {
+        padding: 14px 24px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+    }
+
+    .btn-add:hover {
+        background: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    }
+
+    .current-list {
+        padding: 30px;
+    }
+
+    .current-list h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .item-preview {
+        background: #f8f9fa;
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 4px solid #667eea;
+    }
+
+    .item-preview-details {
+        flex: 1;
+    }
+
+    .item-preview-name {
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .item-preview-meta {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .delete-btn-small {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .delete-btn-small:hover {
+        background: #c82333;
+    }
+
+    .action-buttons {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+        font-size: 18px;
+    }
+
+    .btn-success:hover {
+        background: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+    }
+
+    .saved-lists {
+        padding: 30px;
+        border-top: 2px solid #e9ecef;
+    }
+
+    .saved-lists h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .saved-list-item {
+        background: #f8f9fa;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 4px solid #28a745;
+    }
+
+    .saved-list-info h3 {
+        margin-bottom: 5px;
+    }
+
+    .saved-list-info p {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .saved-list-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-small {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    /* Shopping Mode Styles */
+    .shopping-screen {
+        display: none;
+    }
+
+    .progress-bar-container {
+        padding: 20px 30px;
+        background: #f8f9fa;
+    }
+
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .progress-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .progress-percentage {
+        font-size: 24px;
+        font-weight: 700;
+        color: #667eea;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 12px;
+        background: #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea 0%, #28a745 100%);
+        transition: width 0.5s ease;
+        border-radius: 6px;
+    }
+
+    .shopping-list {
+        padding: 30px;
+    }
+
+    .category-section {
+        margin-bottom: 25px;
+    }
+
+    .category-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+
+    .shopping-item {
+        background: white;
+        padding: 18px 20px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: all 0.3s;
+        border: 2px solid #e9ecef;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .shopping-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .shopping-item.completed {
+        opacity: 0.5;
+        border-color: #28a745;
+        background: #f8f9fa;
+    }
+
+    .shopping-item.completed .item-name {
+        text-decoration: line-through;
+    }
+
+    .shopping-item input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    .item-details {
+        flex: 1;
+    }
+
+    .item-name {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    .item-meta {
+        display: flex;
+        gap: 12px;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .item-meta span {
+        background: #f8f9fa;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }
+
+    .item-notes {
+        font-style: italic;
+        color: #495057;
+        margin-top: 5px;
+        font-size: 13px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6c757d;
+    }
+
+    .empty-state svg {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        opacity: 0.3;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Save List Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal.active {
+        display: flex;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .modal-content h3 {
+        margin-bottom: 20px;
+    }
+
+    .modal-content input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .setup-notice {
+        background: #fff3cd;
+        border: 2px solid #ffc107;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px;
+        color: #856404;
+    }
+
+    .setup-notice h3 {
+        margin-bottom: 10px;
+        color: #856404;
+    }
+
+    .setup-notice ol {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    .setup-notice li {
+        margin-bottom: 8px;
+    }
+
+    .setup-notice code {
+        background: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+    }
+
+    @media (max-width: 768px) {
         .form-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .form-row-full {
-            display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .form-row input, .form-row select, .form-row-full input {
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-row input:focus, .form-row select:focus, .form-row-full input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn-add {
-            padding: 14px 24px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-
-        .btn-add:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
-        }
-
-        .current-list {
-            padding: 30px;
-        }
-
-        .current-list h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .item-preview {
-            background: #f8f9fa;
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid #667eea;
-        }
-
-        .item-preview-details {
-            flex: 1;
-        }
-
-        .item-preview-name {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .item-preview-meta {
-            font-size: 13px;
-            color: #6c757d;
-        }
-
-        .delete-btn-small {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .delete-btn-small:hover {
-            background: #c82333;
         }
 
         .action-buttons {
-            padding: 20px 30px;
-            background: #f8f9fa;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
 
         .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex: 1;
-            min-width: 150px;
+            min-width: 100%;
         }
 
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-            font-size: 18px;
-        }
-
-        .btn-success:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #c82333;
-        }
-
-        .saved-lists {
-            padding: 30px;
-            border-top: 2px solid #e9ecef;
-        }
-
-        .saved-lists h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .saved-list-item {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid #28a745;
-        }
-
-        .saved-list-info h3 {
-            margin-bottom: 5px;
-        }
-
-        .saved-list-info p {
-            font-size: 13px;
-            color: #6c757d;
-        }
-
-        .saved-list-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-small {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        /* Shopping Mode Styles */
-        .shopping-screen {
-            display: none;
-        }
-
-        .progress-bar-container {
-            padding: 20px 30px;
-            background: #f8f9fa;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .progress-text {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .progress-percentage {
-            font-size: 24px;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: #e9ecef;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #28a745 100%);
-            transition: width 0.5s ease;
-            border-radius: 6px;
-        }
-
-        .shopping-list {
-            padding: 30px;
-        }
-
-        .category-section {
-            margin-bottom: 25px;
-        }
-
-        .category-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .shopping-item {
-            background: white;
-            padding: 18px 20px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s;
-            border: 2px solid #e9ecef;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .shopping-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .shopping-item.completed {
-            opacity: 0.5;
-            border-color: #28a745;
-            background: #f8f9fa;
-        }
-
-        .shopping-item.completed .item-name {
-            text-decoration: line-through;
-        }
-
-        .shopping-item input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-        }
-
-        .item-details {
-            flex: 1;
-        }
-
-        .item-name {
-            font-weight: 600;
-            font-size: 18px;
-            margin-bottom: 6px;
-            color: #333;
-        }
-
-        .item-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 14px;
-            color: #6c757d;
-        }
-
-        .item-meta span {
-            background: #f8f9fa;
-            padding: 4px 10px;
-            border-radius: 4px;
-        }
-
-        .item-notes {
-            font-style: italic;
-            color: #495057;
-            margin-top: 5px;
-            font-size: 13px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-
-        .empty-state svg {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* Save List Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
+        .sync-status {
+            position: static;
+            margin-top: 10px;
             justify-content: center;
         }
+    }
+</style>
+```
 
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 20px;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .setup-notice {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px;
-            color: #856404;
-        }
-
-        .setup-notice h3 {
-            margin-bottom: 10px;
-            color: #856404;
-        }
-
-        .setup-notice ol {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-
-        .setup-notice li {
-            margin-bottom: 8px;
-        }
-
-        .setup-notice code {
-            background: #f8f9fa;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                min-width: 100%;
-            }
-
-            .sync-status {
-                position: static;
-                margin-top: 10px;
-                justify-content: center;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -555,110 +559,24 @@
             <p style="margin-top: 15px;"><strong>Until configured, the app will work in offline-only mode.</strong></p>
         </div>
 
-        <!-- Home Screen -->
-        <div id="homeScreen" class="home-screen">
-            <div class="header">
-                <div class="sync-status" id="syncStatus">
-                    <div class="sync-indicator"></div>
-                    <span>Synced</span>
-                </div>
-                <h1>🛒 Shopping List</h1>
-                <p>Build your list, sync with family</p>
+```
+    <!-- Home Screen -->
+    <div id="homeScreen" class="home-screen">
+        <div class="header">
+            <div class="sync-status" id="syncStatus">
+                <div class="sync-indicator"></div>
+                <span>Synced</span>
             </div>
-
-            <div class="add-item-section">
-                <h2 style="margin-bottom: 20px; color: #333;">Add Items to Your List</h2>
-                <div class="form-row">
-                    <input type="text" id="itemName" placeholder="Item name (e.g., Apples)" required>
-                    <input type="text" id="itemQty" placeholder="Quantity">
-                    <select id="itemCategory">
-                        <option value="Produce">🥬 Produce</option>
-                        <option value="Dairy">🥛 Dairy</option>
-                        <option value="Meat">🥩 Meat</option>
-                        <option value="Pantry">🥫 Pantry</option>
-                        <option value="Frozen">🧊 Frozen</option>
-                        <option value="Bakery">🍞 Bakery</option>
-                        <option value="Beverages">🥤 Beverages</option>
-                        <option value="Snacks">🍿 Snacks</option>
-                        <option value="Household">🧹 Household</option>
-                        <option value="Other">📦 Other</option>
-                    </select>
-                </div>
-                <div class="form-row-full">
-                    <input type="text" id="itemNotes" placeholder="Notes (e.g., organic, brand preference)">
-                </div>
-                <button class="btn-add" onclick="addItem()">➕ Add Item</button>
-            </div>
-
-            <div class="current-list">
-                <h2>Current List (<span id="itemCount">0</span> items)</h2>
-                <div id="currentListPreview"></div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-success" onclick="goShopping()" id="goShoppingBtn">
-                    🛍️ Go Shopping
-                </button>
-                <button class="btn btn-primary" onclick="openSaveModal()">
-                    💾 Save This List
-                </button>
-                <button class="btn btn-danger" onclick="clearCurrentList()">
-                    🗑️ Clear List
-                </button>
-            </div>
-
-            <div class="saved-lists">
-                <h2>Saved Lists (Cloud Synced)</h2>
-                <div id="savedListsContainer"></div>
-            </div>
+            <h1>🛒 Shopping List</h1>
+            <p>Build your list, sync with family</p>
         </div>
 
-        <!-- Shopping Screen -->
-        <div id="shoppingScreen" class="shopping-screen">
-            <div class="header">
-                <button class="back-btn" onclick="exitShopping()">← Back</button>
-                <div class="sync-status" id="syncStatusShopping">
-                    <div class="sync-indicator"></div>
-                    <span>Synced</span>
-                </div>
-                <h1>🛍️ Shopping Mode</h1>
-                <p>Check off items as you shop</p>
-            </div>
-
-            <div class="progress-bar-container">
-                <div class="progress-info">
-                    <span class="progress-text">Progress</span>
-                    <span class="progress-percentage" id="progressPercentage">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <div class="shopping-list" id="shoppingList"></div>
-        </div>
-    </div>
-
-    <!-- Save List Modal -->
-    <div id="saveModal" class="modal">
-        <div class="modal-content">
-            <h3>Save Your Shopping List</h3>
-            <input type="text" id="listNameInput" placeholder="Enter list name (e.g., Weekly Groceries)">
-            <div class="modal-buttons">
-                <button class="btn btn-primary" onclick="saveCurrentList()" style="flex: 1;">Save</button>
-                <button class="btn btn-secondary" onclick="closeSaveModal()" style="flex: 1;">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Item Modal -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <h3>Edit Item</h3>
-            <div class="form-row" style="margin-bottom: 10px;">
-                <input type="text" id="editItemName" placeholder="Item name" style="width: 100%; margin-bottom: 10px;">
-                <input type="text" id="editItemQty" placeholder="Quantity" style="width: 100%; margin-bottom: 10px;">
-                <select id="editItemCategory" style="width: 100%; margin-bottom: 10px;">
+        <div class="add-item-section">
+            <h2 style="margin-bottom: 20px; color: #333;">Add Items to Your List</h2>
+            <div class="form-row">
+                <input type="text" id="itemName" placeholder="Item name (e.g., Apples)" required>
+                <input type="text" id="itemQty" placeholder="Quantity">
+                <select id="itemCategory">
                     <option value="Produce">🥬 Produce</option>
                     <option value="Dairy">🥛 Dairy</option>
                     <option value="Meat">🥩 Meat</option>
@@ -671,665 +589,765 @@
                     <option value="Other">📦 Other</option>
                 </select>
             </div>
-            <input type="text" id="editItemNotes" placeholder="Notes" style="width: 100%; margin-bottom: 20px; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px;">
-            <div class="modal-buttons">
-                <button class="btn btn-primary" onclick="saveEditedItem()" style="flex: 1;">Save Changes</button>
-                <button class="btn btn-secondary" onclick="closeEditModal()" style="flex: 1;">Cancel</button>
+            <div class="form-row-full">
+                <input type="text" id="itemNotes" placeholder="Notes (e.g., organic, brand preference)">
             </div>
+            <button class="btn-add" onclick="addItem()">➕ Add Item</button>
+        </div>
+
+        <div class="current-list">
+            <h2>Current List (<span id="itemCount">0</span> items)</h2>
+            <div id="currentListPreview"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-success" onclick="goShopping()" id="goShoppingBtn">
+                🛍️ Go Shopping
+            </button>
+            <button class="btn btn-primary" onclick="openSaveModal()">
+                💾 Save This List
+            </button>
+            <button class="btn btn-danger" onclick="clearCurrentList()">
+                🗑️ Clear List
+            </button>
+        </div>
+
+        <div class="saved-lists">
+            <h2>Saved Lists (Cloud Synced)</h2>
+            <div id="savedListsContainer"></div>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- Shopping Screen -->
+    <div id="shoppingScreen" class="shopping-screen">
+        <div class="header">
+            <button class="back-btn" onclick="exitShopping()">← Back</button>
+            <div class="sync-status" id="syncStatusShopping">
+                <div class="sync-indicator"></div>
+                <span>Synced</span>
+            </div>
+            <h1>🛍️ Shopping Mode</h1>
+            <p>Check off items as you shop</p>
+        </div>
 
-    <script>
-        // ========================================
-        // FIREBASE CONFIGURATION
-        // ========================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyCrnSOATLFS_s5xB1vN8a6ASnR9e5zwbBg",
-            authDomain: "go-shopping-2a41b.firebaseapp.com",
-            projectId: "go-shopping-2a41b",
-            storageBucket: "go-shopping-2a41b.firebasestorage.app",
-            messagingSenderId: "300500597505",
-            appId: "1:300500597505:web:6f6bea72eb195dcebc3900",
-            measurementId: "G-MDSVGW6PLG"
-        };
+        <div class="progress-bar-container">
+            <div class="progress-info">
+                <span class="progress-text">Progress</span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
 
-        // Initialize Firebase
-        let db = null;
-        let isFirebaseConfigured = false;
+        <div class="shopping-list" id="shoppingList"></div>
+    </div>
+</div>
 
-        try {
-            if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.firestore();
-                isFirebaseConfigured = true;
-                console.log("✅ Firebase initialized successfully");
-            } else {
-                console.warn("⚠️ Firebase not configured. Running in offline mode.");
-                document.getElementById('setupNotice').style.display = 'block';
-            }
-        } catch (error) {
-            console.error("❌ Firebase initialization error:", error);
+<!-- Save List Modal -->
+<div id="saveModal" class="modal">
+    <div class="modal-content">
+        <h3>Save Your Shopping List</h3>
+        <input type="text" id="listNameInput" placeholder="Enter list name (e.g., Weekly Groceries)">
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="saveCurrentList()" style="flex: 1;">Save</button>
+            <button class="btn btn-secondary" onclick="closeSaveModal()" style="flex: 1;">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Item Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Item</h3>
+        <div class="form-row" style="margin-bottom: 10px;">
+            <input type="text" id="editItemName" placeholder="Item name" style="width: 100%; margin-bottom: 10px;">
+            <input type="text" id="editItemQty" placeholder="Quantity" style="width: 100%; margin-bottom: 10px;">
+            <select id="editItemCategory" style="width: 100%; margin-bottom: 10px;">
+                <option value="Produce">🥬 Produce</option>
+                <option value="Dairy">🥛 Dairy</option>
+                <option value="Meat">🥩 Meat</option>
+                <option value="Pantry">🥫 Pantry</option>
+                <option value="Frozen">🧊 Frozen</option>
+                <option value="Bakery">🍞 Bakery</option>
+                <option value="Beverages">🥤 Beverages</option>
+                <option value="Snacks">🍿 Snacks</option>
+                <option value="Household">🧹 Household</option>
+                <option value="Other">📦 Other</option>
+            </select>
+        </div>
+        <input type="text" id="editItemNotes" placeholder="Notes" style="width: 100%; margin-bottom: 20px; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px;">
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="saveEditedItem()" style="flex: 1;">Save Changes</button>
+            <button class="btn btn-secondary" onclick="closeEditModal()" style="flex: 1;">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+    // ========================================
+    // FIREBASE CONFIGURATION
+    // ========================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyCrnSOATLFS_s5xB1vN8a6ASnR9e5zwbBg",
+        authDomain: "go-shopping-2a41b.firebaseapp.com",
+        projectId: "go-shopping-2a41b",
+        storageBucket: "go-shopping-2a41b.firebasestorage.app",
+        messagingSenderId: "300500597505",
+        appId: "1:300500597505:web:6f6bea72eb195dcebc3900",
+        measurementId: "G-MDSVGW6PLG"
+    };
+
+    // Initialize Firebase
+    let db = null;
+    let isFirebaseConfigured = false;
+
+    try {
+        if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            isFirebaseConfigured = true;
+            console.log("✅ Firebase initialized successfully");
+        } else {
+            console.warn("⚠️ Firebase not configured. Running in offline mode.");
             document.getElementById('setupNotice').style.display = 'block';
         }
+    } catch (error) {
+        console.error("❌ Firebase initialization error:", error);
+        document.getElementById('setupNotice').style.display = 'block';
+    }
 
-        // ========================================
-        // APP STATE
-        // ========================================
-        let currentItems = [];
-        let savedLists = [];
-        let activeListId = 'default'; // Can be changed to support multiple active lists
+    // ========================================
+    // APP STATE
+    // ========================================
+    let currentItems = [];
+    let savedLists = [];
+    let activeListId = 'default'; // Can be changed to support multiple active lists
 
-        // ========================================
-        // FIREBASE REAL-TIME SYNC
-        // ========================================
-        function setupRealtimeSync() {
-            if (!isFirebaseConfigured) {
-                // Fallback to localStorage
-                loadFromLocalStorage();
-                return;
-            }
+    // ========================================
+    // FIREBASE REAL-TIME SYNC
+    // ========================================
+    function setupRealtimeSync() {
+        if (!isFirebaseConfigured) {
+            // Fallback to localStorage
+            loadFromLocalStorage();
+            return;
+        }
 
-            // Listen to current list items
-            db.collection('lists').doc(activeListId).collection('items')
-                .onSnapshot((snapshot) => {
-                    currentItems = [];
-                    snapshot.forEach((doc) => {
-                        currentItems.push({ id: doc.id, ...doc.data() });
-                    });
-                    currentItems.sort((a, b) => a.timestamp - b.timestamp);
-                    renderCurrentList();
-                    if (document.getElementById('shoppingScreen').style.display === 'block') {
-                        renderShoppingList();
-                    }
-                    updateSyncStatus('synced');
-                }, (error) => {
-                    console.error("Sync error:", error);
-                    updateSyncStatus('error');
+        // Listen to current list items
+        db.collection('lists').doc(activeListId).collection('items')
+            .onSnapshot((snapshot) => {
+                currentItems = [];
+                snapshot.forEach((doc) => {
+                    currentItems.push({ id: doc.id, ...doc.data() });
                 });
-
-            // Listen to saved lists
-            db.collection('savedLists')
-                .onSnapshot((snapshot) => {
-                    savedLists = [];
-                    snapshot.forEach((doc) => {
-                        savedLists.push({ id: doc.id, ...doc.data() });
-                    });
-                    savedLists.sort((a, b) => b.dateCreated - a.dateCreated);
-                    renderSavedLists();
-                });
-        }
-
-        function updateSyncStatus(status) {
-            const statusElements = [
-                document.getElementById('syncStatus'),
-                document.getElementById('syncStatusShopping')
-            ];
-            
-            statusElements.forEach(el => {
-                if (!el) return;
-                const indicator = el.querySelector('.sync-indicator');
-                const text = el.querySelector('span');
-                
-                if (status === 'synced') {
-                    indicator.style.background = '#28a745';
-                    text.textContent = 'Synced';
-                } else if (status === 'syncing') {
-                    indicator.style.background = '#ffc107';
-                    text.textContent = 'Syncing...';
-                } else if (status === 'error') {
-                    indicator.style.background = '#dc3545';
-                    text.textContent = 'Offline';
-                }
-            });
-        }
-
-        // ========================================
-        // ITEM MANAGEMENT
-        // ========================================
-        let editingItemId = null;
-
-        async function addItem() {
-            const name = document.getElementById('itemName').value.trim();
-            const qty = document.getElementById('itemQty').value.trim();
-            const category = document.getElementById('itemCategory').value;
-            const notes = document.getElementById('itemNotes').value.trim();
-
-            if (!name) {
-                alert('Please enter an item name');
-                return;
-            }
-
-            const item = {
-                name: name,
-                quantity: qty || '1',
-                category: category,
-                notes: notes,
-                completed: false,
-                timestamp: Date.now()
-            };
-
-            // Clear form
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemQty').value = '';
-            document.getElementById('itemNotes').value = '';
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    await db.collection('lists').doc(activeListId).collection('items').add(item);
-                } catch (error) {
-                    console.error("Error adding item:", error);
-                    alert('Failed to add item. Please check your connection.');
-                }
-            } else {
-                item.id = Date.now().toString();
-                currentItems.push(item);
-                saveToLocalStorage();
-                renderCurrentList();
-            }
-        }
-
-        function openEditModal(id) {
-            const item = currentItems.find(i => i.id === id);
-            if (!item) return;
-
-            editingItemId = id;
-            document.getElementById('editItemName').value = item.name;
-            document.getElementById('editItemQty').value = item.quantity;
-            document.getElementById('editItemCategory').value = item.category;
-            document.getElementById('editItemNotes').value = item.notes || '';
-            document.getElementById('editModal').classList.add('active');
-        }
-
-        function closeEditModal() {
-            editingItemId = null;
-            document.getElementById('editModal').classList.remove('active');
-        }
-
-        async function saveEditedItem() {
-            if (!editingItemId) return;
-
-            const name = document.getElementById('editItemName').value.trim();
-            const qty = document.getElementById('editItemQty').value.trim();
-            const category = document.getElementById('editItemCategory').value;
-            const notes = document.getElementById('editItemNotes').value.trim();
-
-            if (!name) {
-                alert('Please enter an item name');
-                return;
-            }
-
-            const updatedData = {
-                name: name,
-                quantity: qty || '1',
-                category: category,
-                notes: notes
-            };
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    await db.collection('lists').doc(activeListId).collection('items').doc(editingItemId).update(updatedData);
-                    closeEditModal();
-                } catch (error) {
-                    console.error("Error updating item:", error);
-                    alert('Failed to update item. Please try again.');
-                }
-            } else {
-                const item = currentItems.find(i => i.id === editingItemId);
-                if (item) {
-                    Object.assign(item, updatedData);
-                    saveToLocalStorage();
-                    renderCurrentList();
-                    closeEditModal();
-                }
-            }
-        }
-
-        async function deleteItemFromCurrent(id) {
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    await db.collection('lists').doc(activeListId).collection('items').doc(id).delete();
-                } catch (error) {
-                    console.error("Error deleting item:", error);
-                    alert('Failed to delete item. Please try again.');
-                }
-            } else {
-                currentItems = currentItems.filter(i => i.id !== id);
-                saveToLocalStorage();
-                renderCurrentList();
-            }
-        }
-
-        async function toggleComplete(id) {
-            const item = currentItems.find(i => i.id === id);
-            if (!item) return;
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    await db.collection('lists').doc(activeListId).collection('items').doc(id).update({
-                        completed: !item.completed
-                    });
-                } catch (error) {
-                    console.error("Error updating item:", error);
-                }
-            } else {
-                item.completed = !item.completed;
-                saveToLocalStorage();
+                currentItems.sort((a, b) => a.timestamp - b.timestamp);
                 renderCurrentList();
                 if (document.getElementById('shoppingScreen').style.display === 'block') {
                     renderShoppingList();
                 }
-            }
-        }
-
-        async function clearCurrentList() {
-            if (currentItems.length === 0) return;
-            
-            if (!confirm('Clear all items from current list?')) return;
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    const batch = db.batch();
-                    const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
-                    snapshot.docs.forEach((doc) => {
-                        batch.delete(doc.ref);
-                    });
-                    await batch.commit();
-                } catch (error) {
-                    console.error("Error clearing list:", error);
-                }
-            } else {
-                currentItems = [];
-                saveToLocalStorage();
-                renderCurrentList();
-            }
-        }
-
-        // ========================================
-        // SAVED LISTS
-        // ========================================
-        function openSaveModal() {
-            if (currentItems.length === 0) {
-                alert('Add items to your list first!');
-                return;
-            }
-            document.getElementById('saveModal').classList.add('active');
-            document.getElementById('listNameInput').focus();
-        }
-
-        function closeSaveModal() {
-            document.getElementById('saveModal').classList.remove('active');
-            document.getElementById('listNameInput').value = '';
-        }
-
-        async function saveCurrentList() {
-            const name = document.getElementById('listNameInput').value.trim();
-            
-            if (!name) {
-                alert('Please enter a name for your list');
-                return;
-            }
-
-            const savedList = {
-                name: name,
-                items: currentItems.map(i => ({...i, completed: false})),
-                itemCount: currentItems.length,
-                dateCreated: Date.now()
-            };
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    await db.collection('savedLists').add(savedList);
-                    closeSaveModal();
-                    alert('List saved and synced to cloud!');
-                } catch (error) {
-                    console.error("Error saving list:", error);
-                    alert('Failed to save list. Please try again.');
-                }
-            } else {
-                savedList.id = Date.now().toString();
-                savedLists.push(savedList);
-                saveToLocalStorage();
-                closeSaveModal();
-                renderSavedLists();
-                alert('List saved locally!');
-            }
-        }
-
-        async function loadSavedList(id) {
-            const list = savedLists.find(l => l.id === id);
-            if (!list) return;
-
-            if (currentItems.length > 0) {
-                if (!confirm(`Replace current list with "${list.name}"?`)) {
-                    return;
-                }
-            }
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    // Clear current items
-                    const batch = db.batch();
-                    const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
-                    snapshot.docs.forEach((doc) => {
-                        batch.delete(doc.ref);
-                    });
-                    await batch.commit();
-
-                    // Add items from saved list
-                    const batch2 = db.batch();
-                    list.items.forEach(item => {
-                        const docRef = db.collection('lists').doc(activeListId).collection('items').doc();
-                        batch2.set(docRef, {
-                            ...item,
-                            timestamp: Date.now()
-                        });
-                    });
-                    await batch2.commit();
-                    
-                    alert(`Loaded "${list.name}"`);
-                } catch (error) {
-                    console.error("Error loading list:", error);
-                    alert('Failed to load list. Please try again.');
-                }
-            } else {
-                currentItems = JSON.parse(JSON.stringify(list.items));
-                saveToLocalStorage();
-                renderCurrentList();
-                alert(`Loaded "${list.name}"`);
-            }
-        }
-
-        async function editSavedList(id) {
-            const list = savedLists.find(l => l.id === id);
-            if (!list) return;
-
-            if (currentItems.length > 0) {
-                if (!confirm(`Replace current list with "${list.name}" to edit it?`)) {
-                    return;
-                }
-            }
-
-            // Load the list into current items
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    // Clear current items
-                    const batch = db.batch();
-                    const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
-                    snapshot.docs.forEach((doc) => {
-                        batch.delete(doc.ref);
-                    });
-                    await batch.commit();
-
-                    // Add items from saved list
-                    const batch2 = db.batch();
-                    list.items.forEach(item => {
-                        const docRef = db.collection('lists').doc(activeListId).collection('items').doc();
-                        batch2.set(docRef, {
-                            ...item,
-                            timestamp: Date.now()
-                        });
-                    });
-                    await batch2.commit();
-                    
-                    // Delete the old saved list
-                    await db.collection('savedLists').doc(id).delete();
-                    
-                    alert(`Now editing "${list.name}". Make your changes and save the list again when done.`);
-                } catch (error) {
-                    console.error("Error loading list for editing:", error);
-                    alert('Failed to load list for editing. Please try again.');
-                }
-            } else {
-                currentItems = JSON.parse(JSON.stringify(list.items));
-                savedLists = savedLists.filter(l => l.id !== id);
-                saveToLocalStorage();
-                renderCurrentList();
-                renderSavedLists();
-                alert(`Now editing "${list.name}". Make your changes and save the list again when done.`);
-            }
-        }
-
-        async function deleteSavedList(id) {
-            if (!confirm('Delete this saved list?')) return;
-
-            if (isFirebaseConfigured) {
-                updateSyncStatus('syncing');
-                try {
-                    await db.collection('savedLists').doc(id).delete();
-                } catch (error) {
-                    console.error("Error deleting list:", error);
-                }
-            } else {
-                savedLists = savedLists.filter(l => l.id !== id);
-                saveToLocalStorage();
-                renderSavedLists();
-            }
-        }
-
-        // ========================================
-        // SHOPPING MODE
-        // ========================================
-        function goShopping() {
-            if (currentItems.length === 0) {
-                alert('Add items to your list first!');
-                return;
-            }
-
-            document.getElementById('homeScreen').style.display = 'none';
-            document.getElementById('shoppingScreen').style.display = 'block';
-            renderShoppingList();
-        }
-
-        async function exitShopping() {
-            const hasCompleted = currentItems.some(i => i.completed);
-            
-            if (hasCompleted && confirm('Remove completed items from your list?')) {
-                if (isFirebaseConfigured) {
-                    updateSyncStatus('syncing');
-                    try {
-                        const batch = db.batch();
-                        currentItems.filter(i => i.completed).forEach(item => {
-                            const docRef = db.collection('lists').doc(activeListId).collection('items').doc(item.id);
-                            batch.delete(docRef);
-                        });
-                        await batch.commit();
-                    } catch (error) {
-                        console.error("Error removing completed items:", error);
-                    }
-                } else {
-                    currentItems = currentItems.filter(i => !i.completed);
-                    saveToLocalStorage();
-                }
-            }
-
-            document.getElementById('homeScreen').style.display = 'block';
-            document.getElementById('shoppingScreen').style.display = 'none';
-        }
-
-        // ========================================
-        // RENDERING
-        // ========================================
-        function renderCurrentList() {
-            const container = document.getElementById('currentListPreview');
-            const countElement = document.getElementById('itemCount');
-            const goShoppingBtn = document.getElementById('goShoppingBtn');
-            
-            countElement.textContent = currentItems.length;
-            
-            if (currentItems.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state" style="padding: 40px 20px;">
-                        <p>No items added yet. Add items above to start your list!</p>
-                    </div>
-                `;
-                goShoppingBtn.disabled = true;
-                goShoppingBtn.style.opacity = '0.5';
-                return;
-            }
-
-            goShoppingBtn.disabled = false;
-            goShoppingBtn.style.opacity = '1';
-
-            let html = '';
-            currentItems.forEach(item => {
-                html += `
-                    <div class="item-preview">
-                        <div class="item-preview-details">
-                            <div class="item-preview-name">${item.name}</div>
-                            <div class="item-preview-meta">
-                                ${item.category} • Qty: ${item.quantity}${item.notes ? ' • ' + item.notes : ''}
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="btn-small btn-secondary" onclick="openEditModal('${item.id}')" style="background: #667eea;">Edit</button>
-                            <button class="delete-btn-small" onclick="deleteItemFromCurrent('${item.id}')">Delete</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-
-        function renderShoppingList() {
-            const container = document.getElementById('shoppingList');
-            
-            // Update progress
-            const total = currentItems.length;
-            const completed = currentItems.filter(i => i.completed).length;
-            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-            
-            document.getElementById('progressPercentage').textContent = percentage + '%';
-            document.getElementById('progressFill').style.width = percentage + '%';
-
-            // Group by category
-            const categories = {};
-            currentItems.forEach(item => {
-                if (!categories[item.category]) {
-                    categories[item.category] = [];
-                }
-                categories[item.category].push(item);
+                updateSyncStatus('synced');
+            }, (error) => {
+                console.error("Sync error:", error);
+                updateSyncStatus('error');
             });
 
-            let html = '';
-            const sortedCategories = Object.keys(categories).sort();
-            
-            sortedCategories.forEach(category => {
-                const items = categories[category];
-                
-                html += `
-                    <div class="category-section">
-                        <div class="category-header">${category}</div>
-                `;
-                
-                items.forEach(item => {
-                    html += `
-                        <div class="shopping-item ${item.completed ? 'completed' : ''}">
-                            <input type="checkbox" 
-                                   ${item.completed ? 'checked' : ''} 
-                                   onchange="toggleComplete('${item.id}')">
-                            <div class="item-details">
-                                <div class="item-name">${item.name}</div>
-                                <div class="item-meta">
-                                    <span>📦 ${item.quantity}</span>
-                                    ${item.notes ? `<span>📝 ${item.notes}</span>` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
+        // Listen to saved lists
+        db.collection('savedLists')
+            .onSnapshot((snapshot) => {
+                savedLists = [];
+                snapshot.forEach((doc) => {
+                    savedLists.push({ id: doc.id, ...doc.data() });
                 });
-                
-                html += '</div>';
+                savedLists.sort((a, b) => b.dateCreated - a.dateCreated);
+                renderSavedLists();
             });
+    }
+
+    function updateSyncStatus(status) {
+        const statusElements = [
+            document.getElementById('syncStatus'),
+            document.getElementById('syncStatusShopping')
+        ];
+        
+        statusElements.forEach(el => {
+            if (!el) return;
+            const indicator = el.querySelector('.sync-indicator');
+            const text = el.querySelector('span');
             
-            container.innerHTML = html;
+            if (status === 'synced') {
+                indicator.style.background = '#28a745';
+                text.textContent = 'Synced';
+            } else if (status === 'syncing') {
+                indicator.style.background = '#ffc107';
+                text.textContent = 'Syncing...';
+            } else if (status === 'error') {
+                indicator.style.background = '#dc3545';
+                text.textContent = 'Offline';
+            }
+        });
+    }
+
+    // ========================================
+    // ITEM MANAGEMENT
+    // ========================================
+    let editingItemId = null;
+
+    async function addItem() {
+        const name = document.getElementById('itemName').value.trim();
+        const qty = document.getElementById('itemQty').value.trim();
+        const category = document.getElementById('itemCategory').value;
+        const notes = document.getElementById('itemNotes').value.trim();
+
+        if (!name) {
+            alert('Please enter an item name');
+            return;
         }
 
-        function renderSavedLists() {
-            const container = document.getElementById('savedListsContainer');
-            
-            if (savedLists.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state" style="padding: 40px 20px;">
-                        <p>No saved lists yet. Create a list and save it for future shopping trips!</p>
-                    </div>
-                `;
+        const item = {
+            name: name,
+            quantity: qty || '1',
+            category: category,
+            notes: notes,
+            completed: false,
+            timestamp: Date.now()
+        };
+
+        // Clear form
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemQty').value = '';
+        document.getElementById('itemNotes').value = '';
+
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                await db.collection('lists').doc(activeListId).collection('items').add(item);
+            } catch (error) {
+                console.error("Error adding item:", error);
+                alert('Failed to add item. Please check your connection.');
+            }
+        } else {
+            item.id = Date.now().toString();
+            currentItems.push(item);
+            saveToLocalStorage();
+            renderCurrentList();
+        }
+    }
+
+    function openEditModal(id) {
+        const item = currentItems.find(i => i.id === id);
+        if (!item) return;
+
+        editingItemId = id;
+        document.getElementById('editItemName').value = item.name;
+        document.getElementById('editItemQty').value = item.quantity;
+        document.getElementById('editItemCategory').value = item.category;
+        document.getElementById('editItemNotes').value = item.notes || '';
+        document.getElementById('editModal').classList.add('active');
+    }
+
+    function closeEditModal() {
+        editingItemId = null;
+        document.getElementById('editModal').classList.remove('active');
+    }
+
+    async function saveEditedItem() {
+        if (!editingItemId) return;
+
+        const name = document.getElementById('editItemName').value.trim();
+        const qty = document.getElementById('editItemQty').value.trim();
+        const category = document.getElementById('editItemCategory').value;
+        const notes = document.getElementById('editItemNotes').value.trim();
+
+        if (!name) {
+            alert('Please enter an item name');
+            return;
+        }
+
+        const updatedData = {
+            name: name,
+            quantity: qty || '1',
+            category: category,
+            notes: notes
+        };
+
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                await db.collection('lists').doc(activeListId).collection('items').doc(editingItemId).update(updatedData);
+                closeEditModal();
+            } catch (error) {
+                console.error("Error updating item:", error);
+                alert('Failed to update item. Please try again.');
+            }
+        } else {
+            const item = currentItems.find(i => i.id === editingItemId);
+            if (item) {
+                Object.assign(item, updatedData);
+                saveToLocalStorage();
+                renderCurrentList();
+                closeEditModal();
+            }
+        }
+    }
+
+    async function deleteItemFromCurrent(id) {
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                await db.collection('lists').doc(activeListId).collection('items').doc(id).delete();
+            } catch (error) {
+                console.error("Error deleting item:", error);
+                alert('Failed to delete item. Please try again.');
+            }
+        } else {
+            currentItems = currentItems.filter(i => i.id !== id);
+            saveToLocalStorage();
+            renderCurrentList();
+        }
+    }
+
+    async function toggleComplete(id) {
+        const item = currentItems.find(i => i.id === id);
+        if (!item) return;
+
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                await db.collection('lists').doc(activeListId).collection('items').doc(id).update({
+                    completed: !item.completed
+                });
+            } catch (error) {
+                console.error("Error updating item:", error);
+            }
+        } else {
+            item.completed = !item.completed;
+            saveToLocalStorage();
+            renderCurrentList();
+            if (document.getElementById('shoppingScreen').style.display === 'block') {
+                renderShoppingList();
+            }
+        }
+    }
+
+    async function clearCurrentList() {
+        if (currentItems.length === 0) return;
+        
+        if (!confirm('Clear all items from current list?')) return;
+
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                const batch = db.batch();
+                const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
+                snapshot.docs.forEach((doc) => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+            } catch (error) {
+                console.error("Error clearing list:", error);
+            }
+        } else {
+            currentItems = [];
+            saveToLocalStorage();
+            renderCurrentList();
+        }
+    }
+
+    // ========================================
+    // SAVED LISTS
+    // ========================================
+    function openSaveModal() {
+        if (currentItems.length === 0) {
+            alert('Add items to your list first!');
+            return;
+        }
+        document.getElementById('saveModal').classList.add('active');
+        document.getElementById('listNameInput').focus();
+    }
+
+    function closeSaveModal() {
+        document.getElementById('saveModal').classList.remove('active');
+        document.getElementById('listNameInput').value = '';
+    }
+
+    async function saveCurrentList() {
+        const name = document.getElementById('listNameInput').value.trim();
+        
+        if (!name) {
+            alert('Please enter a name for your list');
+            return;
+        }
+
+        const savedList = {
+            name: name,
+            items: currentItems.map(i => ({...i, completed: false})),
+            itemCount: currentItems.length,
+            dateCreated: Date.now()
+        };
+
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                await db.collection('savedLists').add(savedList);
+                closeSaveModal();
+                alert('List saved and synced to cloud!');
+            } catch (error) {
+                console.error("Error saving list:", error);
+                alert('Failed to save list. Please try again.');
+            }
+        } else {
+            savedList.id = Date.now().toString();
+            savedLists.push(savedList);
+            saveToLocalStorage();
+            closeSaveModal();
+            renderSavedLists();
+            alert('List saved locally!');
+        }
+    }
+
+    async function loadSavedList(id) {
+        const list = savedLists.find(l => l.id === id);
+        if (!list) return;
+
+        if (currentItems.length > 0) {
+            if (!confirm(`Replace current list with "${list.name}"?`)) {
                 return;
             }
-
-            let html = '';
-            savedLists.forEach(list => {
-                const date = new Date(list.dateCreated).toLocaleDateString();
-                html += `
-                    <div class="saved-list-item">
-                        <div class="saved-list-info">
-                            <h3>${list.name}</h3>
-                            <p>${list.itemCount} items • Saved ${date}</p>
-                        </div>
-                        <div class="saved-list-actions">
-                            <button class="btn-small btn-primary" onclick="loadSavedList('${list.id}')">Load</button>
-                            <button class="btn-small btn-secondary" onclick="editSavedList('${list.id}')">Edit</button>
-                            <button class="btn-small btn-danger" onclick="deleteSavedList('${list.id}')">Delete</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
         }
 
-        // ========================================
-        // LOCAL STORAGE FALLBACK
-        // ========================================
-        function saveToLocalStorage() {
-            localStorage.setItem('currentItems', JSON.stringify(currentItems));
-            localStorage.setItem('savedLists', JSON.stringify(savedLists));
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                // Clear current items
+                const batch = db.batch();
+                const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
+                snapshot.docs.forEach((doc) => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+
+                // Add items from saved list
+                const batch2 = db.batch();
+                list.items.forEach(item => {
+                    const docRef = db.collection('lists').doc(activeListId).collection('items').doc();
+                    batch2.set(docRef, {
+                        ...item,
+                        timestamp: Date.now()
+                    });
+                });
+                await batch2.commit();
+                
+                alert(`Loaded "${list.name}"`);
+            } catch (error) {
+                console.error("Error loading list:", error);
+                alert('Failed to load list. Please try again.');
+            }
+        } else {
+            currentItems = JSON.parse(JSON.stringify(list.items));
+            saveToLocalStorage();
+            renderCurrentList();
+            alert(`Loaded "${list.name}"`);
+        }
+    }
+
+    async function editSavedList(id) {
+        const list = savedLists.find(l => l.id === id);
+        if (!list) return;
+
+        if (currentItems.length > 0) {
+            if (!confirm(`Replace current list with "${list.name}" to edit it?`)) {
+                return;
+            }
         }
 
-        function loadFromLocalStorage() {
-            const savedItems = localStorage.getItem('currentItems');
-            const savedListsData = localStorage.getItem('savedLists');
-            
-            if (savedItems) {
-                currentItems = JSON.parse(savedItems);
+        // Load the list into current items
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                // Clear current items
+                const batch = db.batch();
+                const snapshot = await db.collection('lists').doc(activeListId).collection('items').get();
+                snapshot.docs.forEach((doc) => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+
+                // Add items from saved list with proper structure
+                const batch2 = db.batch();
+                list.items.forEach(item => {
+                    const docRef = db.collection('lists').doc(activeListId).collection('items').doc();
+                    // Remove the old id field if it exists and let Firebase create new ones
+                    const { id: oldId, ...itemData } = item;
+                    batch2.set(docRef, {
+                        name: itemData.name,
+                        quantity: itemData.quantity || '1',
+                        category: itemData.category,
+                        notes: itemData.notes || '',
+                        completed: false,
+                        timestamp: Date.now()
+                    });
+                });
+                await batch2.commit();
+                
+                // Delete the old saved list
+                await db.collection('savedLists').doc(id).delete();
+                
+                alert(`Now editing "${list.name}". Make your changes and save the list again when done.`);
+            } catch (error) {
+                console.error("Error loading list for editing:", error);
+                alert('Failed to load list for editing. Please try again.');
             }
-            if (savedListsData) {
-                savedLists = JSON.parse(savedListsData);
-            }
-            
+        } else {
+            // For offline mode, regenerate IDs
+            currentItems = list.items.map(item => ({
+                ...item,
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                completed: false
+            }));
+            savedLists = savedLists.filter(l => l.id !== id);
+            saveToLocalStorage();
             renderCurrentList();
             renderSavedLists();
+            alert(`Now editing "${list.name}". Make your changes and save the list again when done.`);
+        }
+    }
+
+    async function deleteSavedList(id) {
+        if (!confirm('Delete this saved list?')) return;
+
+        if (isFirebaseConfigured) {
+            updateSyncStatus('syncing');
+            try {
+                await db.collection('savedLists').doc(id).delete();
+            } catch (error) {
+                console.error("Error deleting list:", error);
+            }
+        } else {
+            savedLists = savedLists.filter(l => l.id !== id);
+            saveToLocalStorage();
+            renderSavedLists();
+        }
+    }
+
+    // ========================================
+    // SHOPPING MODE
+    // ========================================
+    function goShopping() {
+        if (currentItems.length === 0) {
+            alert('Add items to your list first!');
+            return;
         }
 
-        // ========================================
-        // INITIALIZATION
-        // ========================================
-        window.addEventListener('load', () => {
-            setupRealtimeSync();
-            
-            // Enter key handlers
-            document.getElementById('itemName').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addItem();
-            });
-            document.getElementById('itemNotes').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addItem();
-            });
-            document.getElementById('listNameInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') saveCurrentList();
-            });
+        document.getElementById('homeScreen').style.display = 'none';
+        document.getElementById('shoppingScreen').style.display = 'block';
+        renderShoppingList();
+    }
+
+    async function exitShopping() {
+        const hasCompleted = currentItems.some(i => i.completed);
+        
+        if (hasCompleted && confirm('Remove completed items from your list?')) {
+            if (isFirebaseConfigured) {
+                updateSyncStatus('syncing');
+                try {
+                    const batch = db.batch();
+                    currentItems.filter(i => i.completed).forEach(item => {
+                        const docRef = db.collection('lists').doc(activeListId).collection('items').doc(item.id);
+                        batch.delete(docRef);
+                    });
+                    await batch.commit();
+                } catch (error) {
+                    console.error("Error removing completed items:", error);
+                }
+            } else {
+                currentItems = currentItems.filter(i => !i.completed);
+                saveToLocalStorage();
+            }
+        }
+
+        document.getElementById('homeScreen').style.display = 'block';
+        document.getElementById('shoppingScreen').style.display = 'none';
+    }
+
+    // ========================================
+    // RENDERING
+    // ========================================
+    function renderCurrentList() {
+        const container = document.getElementById('currentListPreview');
+        const countElement = document.getElementById('itemCount');
+        const goShoppingBtn = document.getElementById('goShoppingBtn');
+        
+        countElement.textContent = currentItems.length;
+        
+        if (currentItems.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 40px 20px;">
+                    <p>No items added yet. Add items above to start your list!</p>
+                </div>
+            `;
+            goShoppingBtn.disabled = true;
+            goShoppingBtn.style.opacity = '0.5';
+            return;
+        }
+
+        goShoppingBtn.disabled = false;
+        goShoppingBtn.style.opacity = '1';
+
+        let html = '';
+        currentItems.forEach(item => {
+            html += `
+                <div class="item-preview">
+                    <div class="item-preview-details">
+                        <div class="item-preview-name">${item.name}</div>
+                        <div class="item-preview-meta">
+                            ${item.category} • Qty: ${item.quantity}${item.notes ? ' • ' + item.notes : ''}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-small btn-secondary" onclick="openEditModal('${item.id}')" style="background: #667eea;">Edit</button>
+                        <button class="delete-btn-small" onclick="deleteItemFromCurrent('${item.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
         });
-    </script>
+        
+        container.innerHTML = html;
+    }
+
+    function renderShoppingList() {
+        const container = document.getElementById('shoppingList');
+        
+        // Update progress
+        const total = currentItems.length;
+        const completed = currentItems.filter(i => i.completed).length;
+        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+        
+        document.getElementById('progressPercentage').textContent = percentage + '%';
+        document.getElementById('progressFill').style.width = percentage + '%';
+
+        // Group by category
+        const categories = {};
+        currentItems.forEach(item => {
+            if (!categories[item.category]) {
+                categories[item.category] = [];
+            }
+            categories[item.category].push(item);
+        });
+
+        let html = '';
+        const sortedCategories = Object.keys(categories).sort();
+        
+        sortedCategories.forEach(category => {
+            const items = categories[category];
+            
+            html += `
+                <div class="category-section">
+                    <div class="category-header">${category}</div>
+            `;
+            
+            items.forEach(item => {
+                html += `
+                    <div class="shopping-item ${item.completed ? 'completed' : ''}">
+                        <input type="checkbox" 
+                               ${item.completed ? 'checked' : ''} 
+                               onchange="toggleComplete('${item.id}')">
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-meta">
+                                <span>📦 ${item.quantity}</span>
+                                ${item.notes ? `<span>📝 ${item.notes}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function renderSavedLists() {
+        const container = document.getElementById('savedListsContainer');
+        
+        if (savedLists.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 40px 20px;">
+                    <p>No saved lists yet. Create a list and save it for future shopping trips!</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        savedLists.forEach(list => {
+            const date = new Date(list.dateCreated).toLocaleDateString();
+            html += `
+                <div class="saved-list-item">
+                    <div class="saved-list-info">
+                        <h3>${list.name}</h3>
+                        <p>${list.itemCount} items • Saved ${date}</p>
+                    </div>
+                    <div class="saved-list-actions">
+                        <button class="btn-small btn-primary" onclick="loadSavedList('${list.id}')">Load</button>
+                        <button class="btn-small btn-secondary" onclick="editSavedList('${list.id}')">Edit</button>
+                        <button class="btn-small btn-danger" onclick="deleteSavedList('${list.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // ========================================
+    // LOCAL STORAGE FALLBACK
+    // ========================================
+    function saveToLocalStorage() {
+        localStorage.setItem('currentItems', JSON.stringify(currentItems));
+        localStorage.setItem('savedLists', JSON.stringify(savedLists));
+    }
+
+    function loadFromLocalStorage() {
+        const savedItems = localStorage.getItem('currentItems');
+        const savedListsData = localStorage.getItem('savedLists');
+        
+        if (savedItems) {
+            currentItems = JSON.parse(savedItems);
+        }
+        if (savedListsData) {
+            savedLists = JSON.parse(savedListsData);
+        }
+        
+        renderCurrentList();
+        renderSavedLists();
+    }
+
+    // ========================================
+    // INITIALIZATION
+    // ========================================
+    window.addEventListener('load', () => {
+        setupRealtimeSync();
+        
+        // Enter key handlers
+        document.getElementById('itemName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addItem();
+        });
+        document.getElementById('itemNotes').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addItem();
+        });
+        document.getElementById('listNameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') saveCurrentList();
+        });
+    });
+</script>
+```
+
 </body>
 </html>
